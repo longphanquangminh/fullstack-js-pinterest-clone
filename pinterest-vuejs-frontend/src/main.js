@@ -1,3 +1,4 @@
+import 'virtual:windi.css'
 import './assets/main.css'
 
 import { createApp } from 'vue'
