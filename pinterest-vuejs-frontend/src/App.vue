@@ -1,8 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-
-let count = 0
 </script>
 
 <template>
@@ -15,7 +13,7 @@ let count = 0
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <div> {{ count }}</div>
+        <div>{{ count }}</div>
         <button type="button" @click="count++">a</button>
       </nav>
     </div>
@@ -23,6 +21,21 @@ let count = 0
 
   <RouterView />
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      count: 0,
+    };
+  },
+  methods: {
+    increment() {
+      this.count++;
+    },
+  },
+};
+</script>
 
 <style scoped>
 header {
