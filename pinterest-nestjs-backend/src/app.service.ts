@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'This is picturest API project!';
+    return 'This is Picturest API project!';
   }
 }
