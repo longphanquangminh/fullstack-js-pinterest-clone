@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build",
+    "generate-models": "bunx typeorm-model-generator -h $DB_HOST -d $DB_NAME -u $DB_USER -x $DB_PASSWORD -e $DB_TYPE -o ./src && bun run format",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
