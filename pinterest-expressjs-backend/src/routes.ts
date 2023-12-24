@@ -36,6 +36,6 @@ export const Routes = [
     method: "post",
     route: "/register",
     controller: AuthController,
-    action: "register",
+    action: "save",
   },
 ];

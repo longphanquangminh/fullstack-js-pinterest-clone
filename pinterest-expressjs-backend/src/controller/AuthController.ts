@@ -2,9 +2,8 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User";
 import { NguoiDung } from "../entity/NguoiDung";
-import bcrypt from "bcrypt";
 import { responseData } from "../config/Response";
-
+import * as bcrypt from "bcrypt";
 export class AuthController {
   private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
@@ -29,14 +28,15 @@ export class AuthController {
     try {
       const { anhDaiDien, tuoi, matKhau, hoTen, email } = request.body;
 
-      const checkUser = await this.nguoiDungRepository.findOne({
-        where: { email },
+      const checkUser = await this.nguoiDungRepository.findOneBy({
+        email,
       });
 
       // check trùng email
       if (checkUser) {
         // res.status(400).send("Email đã tồn tại");
         responseData(response, "Email đã tồn tại", "", 400);
+        return;
       }
 
       const user = Object.assign(new NguoiDung(), {
@@ -47,7 +47,8 @@ export class AuthController {
         email,
       });
 
-      return this.nguoiDungRepository.save(user);
+      await this.nguoiDungRepository.save(user);
+      responseData(response, "Đăng ký thành công", "", 200);
     } catch {
       responseData(response, "Lỗi ...", "", 500);
     }
