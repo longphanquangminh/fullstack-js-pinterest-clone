@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 
 export const createToken = data => {
   let token = jwt.sign({ data }, "BIMAT", { algorithm: "HS256", expiresIn: "3s" });
@@ -30,6 +30,6 @@ export const verifyToken = (req, res, next) => {
     next();
   } else {
     // token không hợp lệ
-    res.status(401).send(check.name);
+    res.status(401).send("token không hợp lệ");
   }
 };
