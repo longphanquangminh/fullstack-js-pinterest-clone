@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
   database: "free",
   synchronize: true,
   logging: false,
-  entities: [NguoiDung, HinhAnh, LuuAnh, BinhLuan, User],
+  entities: [NguoiDung, HinhAnh, LuuAnh, BinhLuan],
   migrations: [],
   subscribers: [],
 });

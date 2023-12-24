@@ -3,7 +3,7 @@ import { BinhLuan } from "./BinhLuan";
 import { NguoiDung } from "./NguoiDung";
 import { LuuAnh } from "./LuuAnh";
 
-@Index("HINH_ANH_PK", ["hinhId"], { unique: true })
+// @Index("HINH_ANH_PK", ["hinhId"], { unique: true })
 @Entity("HINH_ANH")
 export class HinhAnh {
   @Column("varchar2", { name: "MO_TA", length: 255 })
