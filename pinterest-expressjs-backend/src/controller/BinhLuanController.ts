@@ -31,6 +31,12 @@ export class BinhLuanController {
       }
 
       const { token } = request.headers;
+
+      if (!token || token == "" || token == null || token == undefined) {
+        responseData(response, "Chưa truyền token!", "", 400);
+        return;
+      }
+
       const accessToken = decodeToken(token);
 
       const user = await this.nguoiDungRepository.findOne({
