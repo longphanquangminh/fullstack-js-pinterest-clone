@@ -1,5 +1,6 @@
 import { AuthController } from "./controller/AuthController";
 import { UserController } from "./controller/UserController";
+import { HinhAnhController } from "./controller/HinhAnhController";
 
 export const Routes = [
   {
@@ -36,6 +37,18 @@ export const Routes = [
     method: "post",
     route: "/register",
     controller: AuthController,
-    action: "save",
+    action: "register",
+  },
+  {
+    method: "get",
+    route: "/pictures",
+    controller: HinhAnhController,
+    action: "getPictures",
+  },
+  {
+    method: "get",
+    route: "/pictures/:pictureName",
+    controller: HinhAnhController,
+    action: "getPicturesByName",
   },
 ];

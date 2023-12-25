@@ -25,7 +25,7 @@ export class AuthController {
     return user;
   }
 
-  async save(request: Request, response: Response, next: NextFunction) {
+  async register(request: Request, response: Response, next: NextFunction) {
     try {
       const { anhDaiDien, tuoi, matKhau, hoTen, email } = request.body;
 
@@ -87,7 +87,7 @@ export class AuthController {
             key,
           });
 
-          responseData(response, "Login thành công", token, 200);
+          responseData(response, "Login thành công", { token }, 200);
         } else {
           responseData(response, "Mật khẩu không đúng", "", 400);
         }
