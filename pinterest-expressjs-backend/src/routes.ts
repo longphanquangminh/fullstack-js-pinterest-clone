@@ -46,4 +46,10 @@ export const Routes = [
     controller: LuuAnhController,
     action: "checkImageSaved",
   },
+  {
+    method: "post",
+    route: "/comments/:pictureId",
+    controller: BinhLuanController,
+    action: "postComment",
+  },
 ];

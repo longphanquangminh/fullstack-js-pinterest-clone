@@ -8,23 +8,6 @@ import { createToken } from "../config/jwt";
 export class AuthController {
   private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    return this.nguoiDungRepository.find();
-  }
-
-  async one(request: Request, response: Response, next: NextFunction) {
-    const nguoiDungId = parseInt(request.params.nguoiDungId);
-
-    const user = await this.nguoiDungRepository.findOne({
-      where: { nguoiDungId },
-    });
-
-    if (!user) {
-      return "unregistered user";
-    }
-    return user;
-  }
-
   async register(request: Request, response: Response, next: NextFunction) {
     try {
       const { anhDaiDien, tuoi, matKhau, hoTen, email } = request.body;
@@ -48,16 +31,6 @@ export class AuthController {
     } catch {
       responseData(response, "Lỗi ...", "", 500);
     }
-  }
-
-  async remove(request: Request, response: Response, next: NextFunction) {
-    const nguoiDungId = parseInt(request.params.nguoiDungId);
-    let userToRemove = await this.nguoiDungRepository.findOneBy({ nguoiDungId });
-    if (!userToRemove) {
-      return "this user not exist";
-    }
-    await this.nguoiDungRepository.remove(userToRemove);
-    return "user has been removed";
   }
 
   async login(request: Request, response: Response, next: NextFunction) {
