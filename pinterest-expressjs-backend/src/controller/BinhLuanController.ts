@@ -15,7 +15,7 @@ export class BinhLuanController {
       const pictureId = request.params.pictureId;
 
       const picture = await this.hinhAnhRepository.findOne({
-        where: { hinhId: pictureId },
+        where: { hinhId: +pictureId },
       });
 
       if (!picture) {
@@ -38,6 +38,11 @@ export class BinhLuanController {
       }
 
       const accessToken = decodeToken(token);
+
+      if (!accessToken.data?.nguoiDungId) {
+        responseData(response, "Token không hợp lệ", "", 401);
+        return;
+      }
 
       const user = await this.nguoiDungRepository.findOne({
         where: { nguoiDungId: accessToken.data.nguoiDungId },
@@ -68,7 +73,7 @@ export class BinhLuanController {
       const pictureId = request.params.pictureId;
 
       const picture = await this.hinhAnhRepository.findOne({
-        where: { hinhId: pictureId },
+        where: { hinhId: +pictureId },
       });
 
       if (!picture) {

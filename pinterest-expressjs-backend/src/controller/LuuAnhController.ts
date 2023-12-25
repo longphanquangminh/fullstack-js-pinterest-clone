@@ -15,7 +15,7 @@ export class LuuAnhController {
       const userId = request.params.userId;
 
       const user = await this.nguoiDungRepository.findOne({
-        where: { nguoiDungId: userId },
+        where: { nguoiDungId: +userId },
       });
 
       if (!user) {
@@ -49,7 +49,7 @@ export class LuuAnhController {
       const { pictureId } = request.params;
 
       const picture = await this.hinhAnhRepository.findOne({
-        where: { hinhId: pictureId },
+        where: { hinhId: +pictureId },
       });
 
       if (!picture) {

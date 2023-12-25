@@ -13,7 +13,7 @@ export class HinhAnhController {
       const { pictureId } = request.params;
       const picture = await this.hinhAnhRepository.findOne({
         where: {
-          hinhId: pictureId,
+          hinhId: +pictureId,
         },
         relations: {
           nguoiDung: true,
@@ -53,7 +53,7 @@ export class HinhAnhController {
       const userId = request.params.userId;
 
       const user = await this.nguoiDungRepository.findOne({
-        where: { nguoiDungId: userId },
+        where: { nguoiDungId: +userId },
       });
 
       if (!user) {
@@ -116,7 +116,7 @@ export class HinhAnhController {
 
       const picture = await this.hinhAnhRepository.findOne({
         where: {
-          hinhId: pictureId,
+          hinhId: +pictureId,
         },
         relations: {
           nguoiDung: true,

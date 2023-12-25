@@ -1,4 +1,4 @@
-import multer from "multer";
+import * as multer from "multer";
 
 const storage = multer.diskStorage({
   destination: process.cwd() + "/public/imgs", // nơi định nghĩa đường dẫn lưu hình

@@ -30,6 +30,6 @@ export const verifyToken = (req, res, next) => {
     next();
   } else {
     // token không hợp lệ
-    res.status(401).send("token không hợp lệ");
+    res.status(401).send("Token không hợp lệ");
   }
 };
