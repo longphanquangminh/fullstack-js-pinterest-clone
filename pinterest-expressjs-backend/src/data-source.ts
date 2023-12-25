@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "./entity/User";
 import { NguoiDung } from "./entity/NguoiDung";
 import { HinhAnh } from "./entity/HinhAnh";
 import { LuuAnh } from "./entity/LuuAnh";

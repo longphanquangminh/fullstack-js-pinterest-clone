@@ -3,7 +3,6 @@ import { BinhLuan } from "./BinhLuan";
 import { HinhAnh } from "./HinhAnh";
 import { LuuAnh } from "./LuuAnh";
 
-// @Index("NGUOI_DUNG_PK", ["nguoiDungId"], { unique: true })
 @Entity("NGUOI_DUNG")
 export class NguoiDung {
   @PrimaryGeneratedColumn({ type: "number", name: "NGUOI_DUNG_ID" })

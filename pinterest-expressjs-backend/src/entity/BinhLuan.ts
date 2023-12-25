@@ -2,7 +2,6 @@ import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } 
 import { NguoiDung } from "./NguoiDung";
 import { HinhAnh } from "./HinhAnh";
 
-// @Index("BINH_LUAN_PK", ["binhLuanId"], { unique: true })
 @Entity("BINH_LUAN")
 export class BinhLuan {
   @Column("date", { name: "NGAY_BINH_LUAN" })

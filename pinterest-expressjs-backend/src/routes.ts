@@ -71,4 +71,10 @@ export const Routes = [
     controller: HinhAnhController,
     action: "getCreatedPicturesByUser",
   },
+  {
+    method: "delete",
+    route: "/pictures/:pictureId",
+    controller: HinhAnhController,
+    action: "deletePicture",
+  },
 ];

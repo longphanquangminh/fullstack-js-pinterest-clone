@@ -3,9 +3,44 @@ import { NextFunction, Request, Response } from "express";
 import { responseData } from "../config/Response";
 import { HinhAnh } from "../entity/HinhAnh";
 import { NguoiDung } from "../entity/NguoiDung";
+import { decodeToken } from "../config/jwt";
 export class HinhAnhController {
   private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
   private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
+
+  async deletePicture(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { pictureId } = request.params;
+      const picture = await this.hinhAnhRepository.findOne({
+        where: {
+          hinhId: pictureId,
+        },
+        relations: {
+          nguoiDung: true,
+        },
+      });
+      if (!picture) {
+        responseData(response, "Không tìm thấy hình ảnh để xóa!", "", 400);
+        return;
+      }
+      const { token } = request.headers;
+      const accessToken = decodeToken(token);
+
+      const user = await this.nguoiDungRepository.findOne({
+        where: { nguoiDungId: accessToken.data.nguoiDungId },
+      });
+
+      if (!user || accessToken.data.nguoiDungId !== picture.nguoiDung.nguoiDungId) {
+        responseData(response, "Token không hợp lệ!", "", 401);
+        return;
+      }
+
+      await this.hinhAnhRepository.remove(picture);
+      responseData(response, "Xóa thành công", "", 200);
+    } catch {
+      responseData(response, "Lỗi ...", "", 500);
+    }
+  }
 
   async getCreatedPicturesByUser(request: Request, response: Response, next: NextFunction) {
     try {

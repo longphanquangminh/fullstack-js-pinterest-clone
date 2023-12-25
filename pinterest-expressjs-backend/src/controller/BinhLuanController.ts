@@ -38,7 +38,7 @@ export class BinhLuanController {
       });
 
       if (!user) {
-        responseData(response, "Không tìm thấy người dùng!", "", 400);
+        responseData(response, "Không xác thực được người dùng!", "", 401);
         return;
       }
 
