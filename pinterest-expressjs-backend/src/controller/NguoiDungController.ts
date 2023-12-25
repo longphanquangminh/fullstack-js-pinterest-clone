@@ -40,15 +40,16 @@ export class NguoiDungController {
         return;
       }
 
-      const { anhDaiDien, tuoi, matKhau, hoTen, email } = request.body;
+      const { tuoi, matKhau, hoTen, email } = request.body;
+      const { file } = request;
 
       // initial info for updating
       const updateFields: updateInfoType = {
         email: user.email,
       };
 
-      if (anhDaiDien) {
-        updateFields.anhDaiDien = anhDaiDien;
+      if (file?.filename) {
+        updateFields.anhDaiDien = file.filename;
       }
 
       if (tuoi) {
