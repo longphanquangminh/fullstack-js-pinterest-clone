@@ -1,7 +1,7 @@
 export type updateInfoType = {
   anhDaiDien?: string;
-  tuoi: number;
+  tuoi?: number;
   matKhau?: string;
-  hoTen: string;
-  email: string;
+  hoTen?: string;
+  email?: string;
 };

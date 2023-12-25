@@ -42,24 +42,36 @@ export class NguoiDungController {
 
       const { anhDaiDien, tuoi, matKhau, hoTen, email } = request.body;
 
-      if (!tuoi || !hoTen || !email) {
-        responseData(response, "Vui lòng cung cấp đủ thông tin!", "", 400);
-        return;
-      }
-
+      // initial info for updating
       const updateFields: updateInfoType = {
-        anhDaiDien: anhDaiDien ?? null,
-        tuoi,
-        hoTen,
-        email,
+        email: user.email,
       };
 
-      // Only update the password if it is provided
+      if (anhDaiDien) {
+        updateFields.anhDaiDien = anhDaiDien;
+      }
+
+      if (tuoi) {
+        updateFields.tuoi = tuoi;
+      }
+
       if (matKhau) {
         updateFields.matKhau = bcrypt.hashSync(matKhau, 10);
       }
 
-      await AppDataSource.createQueryBuilder().update(NguoiDung).set(updateFields).where("id = :id", { id: accessToken.data.nguoiDungId }).execute();
+      if (hoTen) {
+        updateFields.hoTen = hoTen;
+      }
+
+      if (email) {
+        updateFields.email = email;
+      }
+
+      await AppDataSource.createQueryBuilder()
+        .update(NguoiDung)
+        .set(updateFields)
+        .where("nguoi_dung_id = :nguoi_dung_id", { nguoi_dung_id: accessToken.data.nguoiDungId })
+        .execute();
 
       responseData(response, "Cập nhật thông tin thành công", "", 200);
     } catch {
