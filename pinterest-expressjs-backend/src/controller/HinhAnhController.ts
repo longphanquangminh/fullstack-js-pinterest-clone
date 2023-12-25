@@ -2,8 +2,43 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { responseData } from "../config/Response";
 import { HinhAnh } from "../entity/HinhAnh";
+import { NguoiDung } from "../entity/NguoiDung";
 export class HinhAnhController {
   private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
+  private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
+
+  async getCreatedPicturesByUser(request: Request, response: Response, next: NextFunction) {
+    try {
+      const userId = request.params.userId;
+
+      const user = await this.nguoiDungRepository.findOne({
+        where: { nguoiDungId: userId },
+      });
+
+      if (!user) {
+        responseData(response, "Người dùng không tồn tại!", "", 400);
+        return;
+      }
+
+      const createdPictures = await this.hinhAnhRepository
+        .createQueryBuilder("hinhAnh")
+        .leftJoinAndSelect("hinhAnh.nguoiDung", "nguoiDung")
+        .where({
+          nguoiDung: {
+            nguoiDungId: userId,
+          },
+        })
+        .getMany();
+
+      if (createdPictures.length === 0) {
+        responseData(response, "Người dùng chưa tạo ảnh nào!", "", 400);
+        return;
+      }
+      responseData(response, "Thành công", createdPictures, 200);
+    } catch {
+      responseData(response, "Lỗi ...", "", 500);
+    }
+  }
 
   async getPictures(request: Request, response: Response, next: NextFunction) {
     try {

@@ -2,6 +2,7 @@ import { AuthController } from "./controller/AuthController";
 import { HinhAnhController } from "./controller/HinhAnhController";
 import { BinhLuanController } from "./controller/BinhLuanController";
 import { LuuAnhController } from "./controller/LuuAnhController";
+import { NguoiDungController } from "./controller/NguoiDungController";
 
 export const Routes = [
   {
@@ -51,5 +52,23 @@ export const Routes = [
     route: "/comments/:pictureId",
     controller: BinhLuanController,
     action: "postComment",
+  },
+  {
+    method: "get",
+    route: "/users/:userId",
+    controller: NguoiDungController,
+    action: "findUser",
+  },
+  {
+    method: "get",
+    route: "/saved-by-user/:userId",
+    controller: LuuAnhController,
+    action: "getSavedPicturesByUser",
+  },
+  {
+    method: "get",
+    route: "/created-by-user/:userId",
+    controller: HinhAnhController,
+    action: "getCreatedPicturesByUser",
   },
 ];
