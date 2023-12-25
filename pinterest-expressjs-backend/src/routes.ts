@@ -77,4 +77,10 @@ export const Routes = [
     controller: HinhAnhController,
     action: "deletePicture",
   },
+  {
+    method: "put",
+    route: "/users/:userId",
+    controller: NguoiDungController,
+    action: "editUserInfo",
+  },
 ];
