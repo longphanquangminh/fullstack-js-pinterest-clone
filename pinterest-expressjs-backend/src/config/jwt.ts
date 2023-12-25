@@ -17,7 +17,7 @@ export const createRefToken = data => {
 export const checkRefToken = token => jwt.verify(token, "KO_BIMAT", (error, decoded) => error);
 
 export const decodeToken = token => {
-  return jwt.decode(token);
+  return jwt.decode(token, { json: true });
 };
 
 export const verifyToken = (req, res, next) => {

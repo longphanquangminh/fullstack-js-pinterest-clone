@@ -1,32 +1,9 @@
 import { AuthController } from "./controller/AuthController";
-import { UserController } from "./controller/UserController";
 import { HinhAnhController } from "./controller/HinhAnhController";
+import { BinhLuanController } from "./controller/BinhLuanController";
+import { LuuAnhController } from "./controller/LuuAnhController";
 
 export const Routes = [
-  {
-    method: "get",
-    route: "/users",
-    controller: UserController,
-    action: "all",
-  },
-  {
-    method: "get",
-    route: "/users/:id",
-    controller: UserController,
-    action: "one",
-  },
-  {
-    method: "post",
-    route: "/users",
-    controller: UserController,
-    action: "save",
-  },
-  {
-    method: "delete",
-    route: "/users/:id",
-    controller: UserController,
-    action: "remove",
-  },
   {
     method: "post",
     route: "/login",
@@ -47,8 +24,26 @@ export const Routes = [
   },
   {
     method: "get",
-    route: "/pictures/:pictureName",
+    route: "/pictures/search-by-name/:pictureName",
     controller: HinhAnhController,
     action: "getPicturesByName",
+  },
+  {
+    method: "get",
+    route: "/pictures/:pictureId",
+    controller: HinhAnhController,
+    action: "getPicturesById",
+  },
+  {
+    method: "get",
+    route: "/comments/:pictureId",
+    controller: BinhLuanController,
+    action: "getCommentsByPictureId",
+  },
+  {
+    method: "get",
+    route: "/saved/:pictureId",
+    controller: LuuAnhController,
+    action: "checkImageSaved",
   },
 ];

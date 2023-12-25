@@ -32,14 +32,10 @@ export class AuthController {
       const checkUser = await this.nguoiDungRepository.findOneBy({
         email,
       });
-
-      // check trùng email
       if (checkUser) {
-        // res.status(400).send("Email đã tồn tại");
         responseData(response, "Email đã tồn tại", "", 400);
         return;
       }
-
       const user = Object.assign(new NguoiDung(), {
         anhDaiDien: anhDaiDien ?? null,
         tuoi,
@@ -47,7 +43,6 @@ export class AuthController {
         hoTen,
         email,
       });
-
       await this.nguoiDungRepository.save(user);
       responseData(response, "Đăng ký thành công", "", 200);
     } catch {
@@ -57,15 +52,11 @@ export class AuthController {
 
   async remove(request: Request, response: Response, next: NextFunction) {
     const nguoiDungId = parseInt(request.params.nguoiDungId);
-
     let userToRemove = await this.nguoiDungRepository.findOneBy({ nguoiDungId });
-
     if (!userToRemove) {
       return "this user not exist";
     }
-
     await this.nguoiDungRepository.remove(userToRemove);
-
     return "user has been removed";
   }
 
@@ -75,24 +66,18 @@ export class AuthController {
       const checkUser = await this.nguoiDungRepository.findOneBy({
         email,
       });
-
-      // tồn tại => login thành công
       if (checkUser) {
         if (bcrypt.compareSync(matKhau, checkUser.matKhau)) {
-          // miniliseconds
           const key = new Date().getTime();
-
           const token = createToken({
             nguoiDungId: checkUser.nguoiDungId,
             key,
           });
-
-          responseData(response, "Login thành công", { token }, 200);
+          responseData(response, "Đăng nhập thành công", { token }, 200);
         } else {
           responseData(response, "Mật khẩu không đúng", "", 400);
         }
       } else {
-        // ko tồn tại => sai email hoặc pass
         responseData(response, "Email không đúng", "", 400);
       }
     } catch {
