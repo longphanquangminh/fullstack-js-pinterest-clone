@@ -1,16 +1,15 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { responseData } from "../config/Response";
-import { BinhLuan } from "../entity/BinhLuan";
-import { HinhAnh } from "../entity/HinhAnh";
-import { decodeToken } from "../config/jwt";
-import { NguoiDung } from "../entity/NguoiDung";
+import { AppDataSource } from "../data-source.js";
+import { responseData } from "../config/Response.js";
+import { BinhLuan } from "../entity/BinhLuan.js";
+import { HinhAnh } from "../entity/HinhAnh.js";
+import { decodeToken } from "../config/jwt.js";
+import { NguoiDung } from "../entity/NguoiDung.js";
 export class BinhLuanController {
-  private binhLuanRepository = AppDataSource.getRepository(BinhLuan);
-  private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
-  private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
+  binhLuanRepository = AppDataSource.getRepository(BinhLuan);
+  hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
+  nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
-  async postComment(request: Request, response: Response, next: NextFunction) {
+  async postComment(request, response, next) {
     try {
       const pictureId = request.params.pictureId;
 
@@ -68,7 +67,7 @@ export class BinhLuanController {
     }
   }
 
-  async getCommentsByPictureId(request: Request, response: Response, next: NextFunction) {
+  async getCommentsByPictureId(request, response, next) {
     try {
       const pictureId = request.params.pictureId;
 
@@ -84,7 +83,6 @@ export class BinhLuanController {
       const comments = await this.binhLuanRepository
         .createQueryBuilder("binhLuan")
         .leftJoinAndSelect("binhLuan.nguoiDung", "nguoiDung")
-        .select(["binhLuan", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .where({
           hinh: {
             hinhId: pictureId,

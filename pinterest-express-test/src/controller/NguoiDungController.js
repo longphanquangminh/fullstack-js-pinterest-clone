@@ -1,15 +1,13 @@
 import * as bcrypt from "bcrypt";
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { NguoiDung } from "../entity/NguoiDung";
-import { responseData } from "../config/Response";
-import { decodeToken } from "../config/jwt";
-import { updateInfoType } from "../types/updateInfoType";
+import { AppDataSource } from "../data-source.js";
+import { NguoiDung } from "../entity/NguoiDung.js";
+import { responseData } from "../config/Response.js";
+import { decodeToken } from "../config/jwt.js";
 
 export class NguoiDungController {
-  private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
+  nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
-  async editUserInfo(request: Request, response: Response, next: NextFunction) {
+  async editUserInfo(request, response, next) {
     try {
       const userId = parseInt(request.params.userId);
 
@@ -44,7 +42,7 @@ export class NguoiDungController {
       const { file } = request;
 
       // initial info for updating
-      const updateFields: updateInfoType = {
+      const updateFields = {
         email: user.email,
       };
 
@@ -80,7 +78,7 @@ export class NguoiDungController {
     }
   }
 
-  async findUser(request: Request, response: Response, next: NextFunction) {
+  async findUser(request, response, next) {
     try {
       const userId = parseInt(request.params.userId);
 
@@ -92,18 +90,7 @@ export class NguoiDungController {
         responseData(response, "Không tìm thấy người dùng", "", 400);
         return;
       }
-      responseData(
-        response,
-        "Thành công",
-        {
-          nguoiDungId: user.nguoiDungId,
-          anhDaiDien: user.anhDaiDien,
-          tuoi: user.tuoi,
-          hoTen: user.hoTen,
-          email: user.email,
-        },
-        200,
-      );
+      responseData(response, "Thành công", user, 200);
     } catch {
       responseData(response, "Lỗi ...", "", 500);
     }

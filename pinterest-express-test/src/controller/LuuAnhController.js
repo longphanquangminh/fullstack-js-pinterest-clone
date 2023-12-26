@@ -1,16 +1,15 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { responseData } from "../config/Response";
-import { LuuAnh } from "../entity/LuuAnh";
-import { HinhAnh } from "../entity/HinhAnh";
-import { NguoiDung } from "../entity/NguoiDung";
-import { decodeToken } from "../config/jwt";
+import { AppDataSource } from "../data-source.js";
+import { responseData } from "../config/Response.js";
+import { LuuAnh } from "../entity/LuuAnh.js";
+import { HinhAnh } from "../entity/HinhAnh.js";
+import { NguoiDung } from "../entity/NguoiDung.js";
+import { decodeToken } from "../config/jwt.js";
 export class LuuAnhController {
-  private luuAnhRepository = AppDataSource.getRepository(LuuAnh);
-  private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
-  private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
+  luuAnhRepository = AppDataSource.getRepository(LuuAnh);
+  hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
+  nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
-  async getSavedPicturesByUser(request: Request, response: Response, next: NextFunction) {
+  async getSavedPicturesByUser(request, response, next) {
     try {
       const userId = request.params.userId;
 
@@ -27,7 +26,6 @@ export class LuuAnhController {
         .createQueryBuilder("luuAnh")
         .leftJoinAndSelect("luuAnh.hinh", "hinh")
         .leftJoinAndSelect("hinh.nguoiDung", "nguoiDung")
-        .select(["luuAnh", "hinh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .where({
           nguoiDung: {
             nguoiDungId: userId,
@@ -45,7 +43,7 @@ export class LuuAnhController {
     }
   }
 
-  async checkImageSaved(request: Request, response: Response, next: NextFunction) {
+  async checkImageSaved(request, response, next) {
     try {
       const { pictureId } = request.params;
 

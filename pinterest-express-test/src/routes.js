@@ -1,9 +1,9 @@
-import { AuthController } from "./controller/AuthController";
-import { HinhAnhController } from "./controller/HinhAnhController";
-import { BinhLuanController } from "./controller/BinhLuanController";
-import { LuuAnhController } from "./controller/LuuAnhController";
-import { NguoiDungController } from "./controller/NguoiDungController";
-import upload from "./config/upload";
+import { AuthController } from "./controller/AuthController.js";
+import { HinhAnhController } from "./controller/HinhAnhController.js";
+import { BinhLuanController } from "./controller/BinhLuanController.js";
+import { LuuAnhController } from "./controller/LuuAnhController.js";
+import { NguoiDungController } from "./controller/NguoiDungController.js";
+import upload from "./config/upload.js";
 
 export const Routes = [
   {

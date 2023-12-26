@@ -1,15 +1,14 @@
-import { AppDataSource } from "../data-source";
-import { NextFunction, Request, Response } from "express";
-import { responseData } from "../config/Response";
-import { HinhAnh } from "../entity/HinhAnh";
-import { NguoiDung } from "../entity/NguoiDung";
-import { decodeToken } from "../config/jwt";
+import { AppDataSource } from "../data-source.js";
+import { responseData } from "../config/Response.js";
+import { HinhAnh } from "../entity/HinhAnh.js";
+import { NguoiDung } from "../entity/NguoiDung.js";
+import { decodeToken } from "../config/jwt.js";
 
 export class HinhAnhController {
-  private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
-  private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
+  hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
+  nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
-  async postPicture(request: Request, response: Response, next: NextFunction) {
+  async postPicture(request, response, next) {
     try {
       const { token } = request.headers;
 
@@ -29,7 +28,7 @@ export class HinhAnhController {
         return;
       }
       const { moTa, tenHinh } = request.body;
-      let file: Express.Multer.File = request.file;
+      let file = request.file;
       // Object.assign(request.body, { tenHinh, moTa, nguoiDung: user });
       // console.log(request.body);
       console.log(file);
@@ -53,7 +52,7 @@ export class HinhAnhController {
     }
   }
 
-  async deletePicture(request: Request, response: Response, next: NextFunction) {
+  async deletePicture(request, response, next) {
     try {
       const { pictureId } = request.params;
       const picture = await this.hinhAnhRepository.findOne({
@@ -93,7 +92,7 @@ export class HinhAnhController {
     }
   }
 
-  async getCreatedPicturesByUser(request: Request, response: Response, next: NextFunction) {
+  async getCreatedPicturesByUser(request, response, next) {
     try {
       const userId = request.params.userId;
 
@@ -109,7 +108,6 @@ export class HinhAnhController {
       const createdPictures = await this.hinhAnhRepository
         .createQueryBuilder("hinhAnh")
         .leftJoinAndSelect("hinhAnh.nguoiDung", "nguoiDung")
-        .select(["hinhAnh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .where({
           nguoiDung: {
             nguoiDungId: userId,
@@ -127,7 +125,7 @@ export class HinhAnhController {
     }
   }
 
-  async getPictures(request: Request, response: Response, next: NextFunction) {
+  async getPictures(request, response, next) {
     try {
       const data = await this.hinhAnhRepository.find();
       responseData(response, "Thành công", data, 200);
@@ -136,7 +134,7 @@ export class HinhAnhController {
     }
   }
 
-  async getPicturesByName(request: Request, response: Response, next: NextFunction) {
+  async getPicturesByName(request, response, next) {
     try {
       const pictureName = request.params.pictureName;
 
@@ -144,7 +142,6 @@ export class HinhAnhController {
         .createQueryBuilder("hinh_anh")
         .where("LOWER(ten_hinh) LIKE LOWER(:ten_hinh)", { ten_hinh: `%${pictureName.toLowerCase()}%` })
         .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
-        .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .getMany();
 
       if (queryPictures.length === 0) {
@@ -157,7 +154,7 @@ export class HinhAnhController {
     }
   }
 
-  async getPicturesById(request: Request, response: Response, next: NextFunction) {
+  async getPicturesById(request, response, next) {
     try {
       const pictureId = request.params.pictureId;
 
@@ -169,7 +166,6 @@ export class HinhAnhController {
           nguoiDung: true,
         },
       });
-      delete picture.nguoiDung.matKhau;
 
       if (!picture) {
         responseData(response, "Không tìm thấy hình ảnh!", "", 400);
