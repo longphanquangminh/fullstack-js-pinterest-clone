@@ -5,6 +5,7 @@ import { BinhLuan } from "../entity/BinhLuan";
 import { HinhAnh } from "../entity/HinhAnh";
 import { decodeToken } from "../config/jwt";
 import { NguoiDung } from "../entity/NguoiDung";
+import { validate } from "class-validator";
 export class BinhLuanController {
   private binhLuanRepository = AppDataSource.getRepository(BinhLuan);
   private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
@@ -59,6 +60,12 @@ export class BinhLuanController {
         hinh: picture,
         nguoiDung: user,
       });
+
+      const errors = await validate(userComment, { validationError: { target: false } });
+      if (errors.length > 0) {
+        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        return;
+      }
 
       await this.binhLuanRepository.save(userComment);
       responseData(response, "Bình luận thành công", "", 200);

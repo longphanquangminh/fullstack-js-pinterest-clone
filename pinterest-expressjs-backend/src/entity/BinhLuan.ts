@@ -15,7 +15,6 @@ export class BinhLuan {
   @Column("varchar2", { name: "NOI_DUNG", length: 255 })
   noiDung: string;
 
-  @IsNumber()
   @PrimaryGeneratedColumn({ type: "number", name: "BINH_LUAN_ID" })
   binhLuanId: number;
 

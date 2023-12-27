@@ -10,7 +10,6 @@ export class LuuAnh {
   @Column("date", { name: "NGAY_LUU" })
   ngayLuu: Date;
 
-  @IsNumber()
   @PrimaryGeneratedColumn({ type: "number", name: "LUU_ANH_ID" })
   luuAnhId: number;
 

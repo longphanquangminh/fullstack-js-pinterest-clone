@@ -7,7 +7,6 @@ import { LuuAnh } from "./LuuAnh";
 
 @Entity("NGUOI_DUNG")
 export class NguoiDung {
-  @IsNumber()
   @PrimaryGeneratedColumn({ type: "number", name: "NGUOI_DUNG_ID" })
   nguoiDungId: number;
 

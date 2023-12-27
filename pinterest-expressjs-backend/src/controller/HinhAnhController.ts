@@ -5,6 +5,7 @@ import { HinhAnh } from "../entity/HinhAnh";
 import { NguoiDung } from "../entity/NguoiDung";
 import { decodeToken } from "../config/jwt";
 import upload from "../config/upload";
+import { validate } from "class-validator";
 
 export class HinhAnhController {
   private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
@@ -55,7 +56,13 @@ export class HinhAnhController {
         },
       });
 
-      this.hinhAnhRepository.save(newPicture);
+      const errors = await validate(newPicture, { validationError: { target: false } });
+      if (errors.length > 0) {
+        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        return;
+      }
+
+      await this.hinhAnhRepository.save(newPicture);
 
       responseData(response, "Thêm hình thành công", "", 200);
       return;

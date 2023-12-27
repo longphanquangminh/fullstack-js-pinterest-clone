@@ -13,7 +13,6 @@ export class HinhAnh {
   @Column("varchar2", { name: "MO_TA", length: 255 })
   moTa: string;
 
-  @IsNumber()
   @PrimaryGeneratedColumn({ type: "number", name: "HINH_ID" })
   hinhId: number;
 
