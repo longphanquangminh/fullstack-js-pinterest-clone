@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { IsNumber, IsOptional, IsString, MaxLength, IsEmail } from "class-validator";
+import { IsNumber, IsOptional, IsString, MaxLength, IsEmail, IsNotEmpty } from "class-validator";
 
 import { BinhLuan } from "./BinhLuan";
 import { HinhAnh } from "./HinhAnh";
@@ -18,20 +18,24 @@ export class NguoiDung {
   anhDaiDien: string | null;
 
   @IsNumber()
+  @IsNotEmpty()
   @Column("number", { name: "TUOI" })
   tuoi: number;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(255)
   @Column("varchar2", { name: "MAT_KHAU", length: 255 })
   matKhau: string;
 
   @IsString()
+  @IsNotEmpty()
   @MaxLength(255)
   @Column("varchar2", { name: "HO_TEN", length: 255 })
   hoTen: string;
 
   @IsEmail()
+  @IsNotEmpty()
   @MaxLength(255)
   @Column("varchar2", { name: "EMAIL", length: 255 })
   email: string;
