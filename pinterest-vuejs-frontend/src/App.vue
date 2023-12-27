@@ -1,14 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -17,9 +15,25 @@ import HelloWorld from './components/HelloWorld.vue'
         <button type="button" @click="count++">a</button>
       </nav>
     </div>
-  </header>
-
-  <RouterView />
+  </header> -->
+  <div class="w-[95%] mx-auto py-3 space-y-6">
+    <header>
+      <div class="flex items-center gap-3">
+        <div class="flex-none w-auto flex items-center gap-3">
+          <img
+            class="w-9 h-9"
+            src="https://longphanportfolio.vercel.app/_next/static/media/logoML.e1614194.svg"
+            alt=""
+          />
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/create">Create</RouterLink>
+        </div>
+        <div class="grow w-full">02</div>
+        <div class="flex-none w-auto">03</div>
+      </div>
+    </header>
+    <RouterView />
+  </div>
 </template>
 
 <script>
@@ -37,7 +51,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<!-- <style scoped>
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -99,4 +113,4 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
-</style>
+</style> -->

@@ -12,6 +12,7 @@ AppDataSource.initialize()
     const app = express();
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+    app.use(express.static("."));
     // app.use(bodyParser.urlencoded({ extended: true }));
     // // cors
     // app.use((req, res, next) => {

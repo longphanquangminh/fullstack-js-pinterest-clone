@@ -88,7 +88,6 @@ export const Routes = [
     method: "post",
     route: "/pictures",
     controller: HinhAnhController,
-    middleware: upload.single("file"),
     action: "postPicture",
   },
 ];

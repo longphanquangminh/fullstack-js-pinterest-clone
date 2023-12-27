@@ -4,6 +4,7 @@ import { responseData } from "../config/Response";
 import { HinhAnh } from "../entity/HinhAnh";
 import { NguoiDung } from "../entity/NguoiDung";
 import { decodeToken } from "../config/jwt";
+import upload from "../config/upload";
 
 export class HinhAnhController {
   private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
@@ -28,26 +29,44 @@ export class HinhAnhController {
         responseData(response, "Token không hợp lệ!", "", 401);
         return;
       }
-      const { moTa, tenHinh } = request.body;
-      let file: Express.Multer.File = request.file;
-      // Object.assign(request.body, { tenHinh, moTa, nguoiDung: user });
-      // console.log(request.body);
-      console.log(file);
-      // if (!file) {
-      //   responseData(response, "Chưa thêm hình", "", 400);
-      //   return;
-      // }
-      // await response.send(file.filename);
-      const newPicture = Object.assign(new HinhAnh(), {
-        moTa: "s",
-        tenHinh: "s",
-        duongDan: "s",
-        nguoiDung: {
-          nguoiDungId: 21,
-        },
+      upload.single("file")(request, response, err => {
+        if (err) {
+          // Handle multer error
+          responseData(response, "Error uploading file", "", 500);
+          return;
+        }
+
+        const file = request.file;
+
+        if (!file) {
+          // Handle missing file
+          responseData(response, "Chưa thêm hình", "", 400);
+          return;
+        }
+
+        const { moTa, tenHinh } = request.body;
+        if (!moTa) {
+          responseData(response, "Chưa thêm mô tả hình", "", 400);
+          return;
+        }
+        if (!tenHinh) {
+          responseData(response, "Chưa thêm tên hình", "", 400);
+          return;
+        }
+        const newPicture = Object.assign(new HinhAnh(), {
+          moTa,
+          tenHinh,
+          duongDan: file.filename,
+          nguoiDung: {
+            nguoiDungId: accessToken.data.nguoiDungId,
+          },
+        });
+
+        this.hinhAnhRepository.save(newPicture);
+
+        responseData(response, "Thêm hình thành công", newPicture, 200);
+        return;
       });
-      await this.hinhAnhRepository.save(newPicture);
-      responseData(response, "Thêm hình thành công", newPicture, 200);
     } catch {
       responseData(response, "Lỗi ...", "", 500);
     }
