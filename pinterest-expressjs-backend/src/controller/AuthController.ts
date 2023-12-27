@@ -11,11 +11,28 @@ export class AuthController {
     try {
       const { anhDaiDien, tuoi, matKhau, hoTen, email } = request.body;
 
+      if (!email) {
+        responseData(response, "Vui lòng nhập email!", "", 400);
+        return;
+      }
+
       const checkUser = await this.nguoiDungRepository.findOneBy({
         email,
       });
       if (checkUser) {
         responseData(response, "Email đã tồn tại", "", 400);
+        return;
+      }
+      if (!matKhau) {
+        responseData(response, "Vui lòng nhập mật khẩu!", "", 400);
+        return;
+      }
+      if (!hoTen) {
+        responseData(response, "Vui lòng nhập họ tên!", "", 400);
+        return;
+      }
+      if (!tuoi) {
+        responseData(response, "Vui lòng nhập tuổi!", "", 400);
         return;
       }
       const user = Object.assign(new NguoiDung(), {
@@ -35,6 +52,14 @@ export class AuthController {
   async login(request: Request, response: Response, next: NextFunction) {
     try {
       const { email, matKhau } = request.body;
+      if (!email) {
+        responseData(response, "Vui lòng nhập email!", "", 400);
+        return;
+      }
+      if (!matKhau) {
+        responseData(response, "Vui lòng nhập mật khẩu!", "", 400);
+        return;
+      }
       const checkUser = await this.nguoiDungRepository.findOneBy({
         email,
       });
@@ -45,12 +70,12 @@ export class AuthController {
             nguoiDungId: checkUser.nguoiDungId,
             key,
           });
-          responseData(response, "Đăng nhập thành công", { token }, 200);
+          responseData(response, "Đăng nhập thành công!", { token }, 200);
         } else {
-          responseData(response, "Mật khẩu không đúng", "", 400);
+          responseData(response, "Mật khẩu không đúng!", "", 400);
         }
       } else {
-        responseData(response, "Email không đúng", "", 400);
+        responseData(response, "Email không tồn tại!", "", 400);
       }
     } catch {
       responseData(response, "Lỗi ...", "", 500);

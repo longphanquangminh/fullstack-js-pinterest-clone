@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
 import { AppDataSource } from "./data-source";
 import { Routes } from "./routes";
+import rootRoute from "./routes/rootRoute";
 
 const LISTEN_PORT = 8080;
 
@@ -13,6 +14,7 @@ AppDataSource.initialize()
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
     app.use(express.static("."));
+    // app.use(rootRoute);
     // app.use(bodyParser.urlencoded({ extended: true }));
     // // cors
     // app.use((req, res, next) => {
@@ -22,15 +24,36 @@ AppDataSource.initialize()
     // });
 
     // register express routes from defined application routes
+    // Routes.forEach(route => {
+    //   const controllers = new (route.controller as any)();
+    //   const routeHandler = controllers[route.action].bind(controllers);
+
+    //   // Apply middleware for specific routes
+    //   if (route.middleware) {
+    //     app[route.method](route.route, route.middleware, routeHandler);
+    //   } else {
+    //     app[route.method](route.route, routeHandler);
+    //   }
+    // });
+
+    // Routes.forEach(route => {
+    //   const controllers = new (route.controller as any)();
+    //   const routeHandler = controllers[route.action].bind(controllers);
+
+    //   // Apply multiple middlewares for specific routes
+    //   const middlewares = Array.isArray(route.middleware) ? route.middleware : [route.middleware];
+    //   app[route.method](route.route, middlewares, routeHandler);
+    // });
+
     Routes.forEach(route => {
-      (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-        const result = new (route.controller as any)()[route.action](req, res, next);
-        if (result instanceof Promise) {
-          result.then(result => (result !== null && result !== undefined ? res.send(result) : undefined));
-        } else if (result !== null && result !== undefined) {
-          res.json(result);
-        }
-      });
+      const controllers = new (route.controller as any)();
+      const routeHandler = controllers[route.action].bind(controllers);
+      if (route.middleware) {
+        const middlewares = Array.isArray(route.middleware) ? route.middleware : [route.middleware];
+        app[route.method](route.route, middlewares, routeHandler);
+      } else {
+        app[route.method](route.route, routeHandler);
+      }
     });
 
     // setup express app here

@@ -80,7 +80,6 @@ export class BinhLuanController {
         responseData(response, "Không tìm thấy hình ảnh!", "", 400);
         return;
       }
-
       const comments = await this.binhLuanRepository
         .createQueryBuilder("binhLuan")
         .leftJoinAndSelect("binhLuan.nguoiDung", "nguoiDung")

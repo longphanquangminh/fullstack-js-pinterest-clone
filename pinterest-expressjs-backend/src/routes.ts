@@ -5,7 +5,7 @@ import { LuuAnhController } from "./controller/LuuAnhController";
 import { NguoiDungController } from "./controller/NguoiDungController";
 import upload from "./config/upload";
 
-export const Routes = [
+export const Routes: any = [
   {
     method: "post",
     route: "/login",
@@ -83,11 +83,13 @@ export const Routes = [
     route: "/users/:userId",
     controller: NguoiDungController,
     action: "editUserInfo",
+    middleware: upload.single("file"),
   },
   {
     method: "post",
     route: "/pictures",
     controller: HinhAnhController,
     action: "postPicture",
+    middleware: [upload.single("file")],
   },
 ];

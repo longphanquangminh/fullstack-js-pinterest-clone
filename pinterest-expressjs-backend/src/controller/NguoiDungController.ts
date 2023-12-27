@@ -40,15 +40,26 @@ export class NguoiDungController {
         return;
       }
 
-      const { tuoi, matKhau, hoTen, email } = request.body;
-      const { file } = request;
-
       // initial info for updating
       const updateFields: updateInfoType = {
         email: user.email,
       };
 
-      if (file?.filename) {
+      const { tuoi, matKhau, hoTen, email } = request.body;
+      if (email) {
+        const checkUserEmail = await this.nguoiDungRepository.findOneBy({
+          email,
+        });
+        if (checkUserEmail && checkUserEmail.nguoiDungId !== userId) {
+          responseData(response, "Email đã được tài khoản khác sử dụng!", "", 400);
+          return;
+        }
+        updateFields.email = email;
+      }
+
+      const file = request.file;
+
+      if (file) {
         updateFields.anhDaiDien = file.filename;
       }
 
@@ -64,16 +75,11 @@ export class NguoiDungController {
         updateFields.hoTen = hoTen;
       }
 
-      if (email) {
-        updateFields.email = email;
-      }
-
       await AppDataSource.createQueryBuilder()
         .update(NguoiDung)
         .set(updateFields)
         .where("nguoi_dung_id = :nguoi_dung_id", { nguoi_dung_id: accessToken.data.nguoiDungId })
         .execute();
-
       responseData(response, "Cập nhật thông tin thành công", "", 200);
     } catch {
       responseData(response, "Lỗi ...", "", 500);

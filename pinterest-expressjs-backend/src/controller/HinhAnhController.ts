@@ -29,44 +29,36 @@ export class HinhAnhController {
         responseData(response, "Token không hợp lệ!", "", 401);
         return;
       }
-      upload.single("file")(request, response, err => {
-        if (err) {
-          // Handle multer error
-          responseData(response, "Error uploading file", "", 500);
-          return;
-        }
+      const file = request.file;
 
-        const file = request.file;
-
-        if (!file) {
-          // Handle missing file
-          responseData(response, "Chưa thêm hình", "", 400);
-          return;
-        }
-
-        const { moTa, tenHinh } = request.body;
-        if (!moTa) {
-          responseData(response, "Chưa thêm mô tả hình", "", 400);
-          return;
-        }
-        if (!tenHinh) {
-          responseData(response, "Chưa thêm tên hình", "", 400);
-          return;
-        }
-        const newPicture = Object.assign(new HinhAnh(), {
-          moTa,
-          tenHinh,
-          duongDan: file.filename,
-          nguoiDung: {
-            nguoiDungId: accessToken.data.nguoiDungId,
-          },
-        });
-
-        this.hinhAnhRepository.save(newPicture);
-
-        responseData(response, "Thêm hình thành công", newPicture, 200);
+      if (!file) {
+        // Handle missing file
+        responseData(response, "Chưa thêm hình", "", 400);
         return;
+      }
+
+      const { moTa, tenHinh } = request.body;
+      if (!moTa) {
+        responseData(response, "Chưa thêm mô tả hình", "", 400);
+        return;
+      }
+      if (!tenHinh) {
+        responseData(response, "Chưa thêm tên hình", "", 400);
+        return;
+      }
+      const newPicture = Object.assign(new HinhAnh(), {
+        moTa,
+        tenHinh,
+        duongDan: file.filename,
+        nguoiDung: {
+          nguoiDungId: accessToken.data.nguoiDungId,
+        },
       });
+
+      this.hinhAnhRepository.save(newPicture);
+
+      responseData(response, "Thêm hình thành công", "", 200);
+      return;
     } catch {
       responseData(response, "Lỗi ...", "", 500);
     }
