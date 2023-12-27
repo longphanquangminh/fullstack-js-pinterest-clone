@@ -5,6 +5,7 @@ import { NguoiDung } from "../entity/NguoiDung";
 import { responseData } from "../config/Response";
 import { decodeToken } from "../config/jwt";
 import { updateInfoType } from "../types/updateInfoType";
+import { validate } from "class-validator";
 
 export class NguoiDungController {
   private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
@@ -74,6 +75,12 @@ export class NguoiDungController {
       if (hoTen) {
         updateFields.hoTen = hoTen;
       }
+
+      // const errors = await validate(updateFields, { validationError: { target: false } });
+      // if (errors.length > 0) {
+      //   responseData(response, "Có lỗi đầu vào!", errors, 400);
+      //   return;
+      // }
 
       await AppDataSource.createQueryBuilder()
         .update(NguoiDung)

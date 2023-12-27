@@ -17,6 +17,7 @@ export const Routes: any = [
     route: "/register",
     controller: AuthController,
     action: "register",
+    middleware: [upload.single("file")],
   },
   {
     method: "get",

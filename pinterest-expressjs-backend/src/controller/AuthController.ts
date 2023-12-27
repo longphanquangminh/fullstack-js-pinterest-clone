@@ -10,7 +10,7 @@ export class AuthController {
 
   async register(request: Request, response: Response, next: NextFunction) {
     try {
-      const { anhDaiDien, tuoi, matKhau, hoTen, email } = request.body;
+      const { tuoi, matKhau, hoTen, email } = request.body;
 
       if (!email) {
         responseData(response, "Vui lòng nhập email!", "", 400);
@@ -36,8 +36,9 @@ export class AuthController {
         responseData(response, "Vui lòng nhập tuổi!", "", 400);
         return;
       }
+      const file = request.file;
       const user = Object.assign(new NguoiDung(), {
-        anhDaiDien: anhDaiDien ?? null,
+        anhDaiDien: file?.filename ?? null,
         tuoi,
         matKhau: bcrypt.hashSync(matKhau, 10),
         hoTen,
