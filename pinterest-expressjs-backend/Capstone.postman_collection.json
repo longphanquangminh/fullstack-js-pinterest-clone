@@ -1,0 +1,386 @@
+{
+	"info": {
+		"_postman_id": "58afe90f-d7c8-4a95-a51f-53337faec34e",
+		"name": "Capstone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27257950"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "long@gmail.comaaatest",
+							"type": "text"
+						},
+						{
+							"key": "matKhau",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "hoTen",
+							"value": "Idol Dev",
+							"type": "text"
+						},
+						{
+							"key": "tuoi",
+							"value": "18",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/long/Downloads/411932666_1076020943648867_987494494395559660_n.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"a@g.cc\",\n    \"matKhau\": \"123456\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/pictures",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pictures",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pictures"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/pictures/search-by-name/a",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pictures/search-by-name/a",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pictures",
+						"search-by-name",
+						"a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/pictures/19",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pictures/19",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pictures",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/comments/19",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/comments/19",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"comments",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/saved/19",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pRHVuZ0lkIjo1Mywia2V5IjoxNzAzNzMzMDU3MDM2fSwiaWF0IjoxNzAzNzMzMDU3fQ.QSjQV-DILzGQyqTnjDGUlxdQqCXWg3hX0dYeUxDU6MI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/saved/19",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"saved",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/comments/19",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pRHVuZ0lkIjo1Mywia2V5IjoxNzAzNzMzMDU3MDM2fSwiaWF0IjoxNzAzNzMzMDU3fQ.QSjQV-DILzGQyqTnjDGUlxdQqCXWg3hX0dYeUxDU6MI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"noiDung\": \"aa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/comments/19",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"comments",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/users/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/saved-by-user/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/saved-by-user/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"saved-by-user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/created-by-user/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/created-by-user/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"created-by-user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/pictures/19",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pRHVuZ0lkIjoxLCJrZXkiOjE3MDM3MzU0MTk2OTl9LCJpYXQiOjE3MDM3MzU0MTl9.WONg3DpusKYdCnqpyNRNFDtYY675nCoaYEjUs1BWYtk",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/pictures/178",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pictures",
+						"178"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/users/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pRHVuZ0lkIjoxLCJrZXkiOjE3MDM3MzU0MTk2OTl9LCJpYXQiOjE3MDM3MzU0MTl9.WONg3DpusKYdCnqpyNRNFDtYY675nCoaYEjUs1BWYtk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "hoTen",
+							"value": "John Wick Cena",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/long/Downloads/411932666_1076020943648867_987494494395559660_n.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/users/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/pictures",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pRHVuZ0lkIjoxLCJrZXkiOjE3MDM3MzU0MTk2OTl9LCJpYXQiOjE3MDM3MzU0MTl9.WONg3DpusKYdCnqpyNRNFDtYY675nCoaYEjUs1BWYtk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/long/Downloads/411932666_1076020943648867_987494494395559660_n.jpg"
+						},
+						{
+							"key": "moTa",
+							"value": "Android 18",
+							"type": "text"
+						},
+						{
+							"key": "tenHinh",
+							"value": "akatsuki",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/pictures",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pictures"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
