@@ -21,7 +21,9 @@ export class NguoiDung {
   tuoi: number;
 
   @IsString()
-  @MinLength(6)
+  @MinLength(6, {
+    message: "Mật khẩu phải có tối thiểu 6 ký tự!",
+  })
   @MaxLength(255)
   @Column("varchar2", { name: "MAT_KHAU", length: 255 })
   matKhau: string;
