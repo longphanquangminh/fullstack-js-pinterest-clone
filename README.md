@@ -107,6 +107,6 @@ We hope you have a wonderful time using Picturest!
 
 🌟 Youtube preview: https://youtu.be/3BGVBrY6QCg?si=KXtkh0dYe0sQzOWE
 
-##
+---
 
 This project is developed and contributed by [Long Phan](https://github.com/longphanquangminh)
