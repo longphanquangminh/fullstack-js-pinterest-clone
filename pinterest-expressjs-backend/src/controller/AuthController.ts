@@ -37,6 +37,18 @@ export class AuthController {
         return;
       }
       const file = request.file;
+      const userFake = Object.assign(new NguoiDung(), {
+        anhDaiDien: file?.filename ?? null,
+        tuoi,
+        matKhau,
+        hoTen,
+        email,
+      });
+      const errors = await validate(userFake, { validationError: { target: false } });
+      if (errors.length > 0) {
+        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        return;
+      }
       const user = Object.assign(new NguoiDung(), {
         anhDaiDien: file?.filename ?? null,
         tuoi,
@@ -44,11 +56,6 @@ export class AuthController {
         hoTen,
         email,
       });
-      const errors = await validate(user, { validationError: { target: false } });
-      if (errors.length > 0) {
-        responseData(response, "Có lỗi đầu vào!", errors, 400);
-        return;
-      }
       await this.nguoiDungRepository.save(user);
       responseData(response, "Đăng ký thành công", "", 200);
     } catch {

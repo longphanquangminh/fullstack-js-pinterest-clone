@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { IsNumber, IsOptional, IsString, MaxLength, IsEmail } from "class-validator";
+import { IsNumber, IsOptional, IsString, MaxLength, IsEmail, MinLength } from "class-validator";
 
 import { BinhLuan } from "./BinhLuan";
 import { HinhAnh } from "./HinhAnh";
@@ -21,6 +21,7 @@ export class NguoiDung {
   tuoi: number;
 
   @IsString()
+  @MinLength(6)
   @MaxLength(255)
   @Column("varchar2", { name: "MAT_KHAU", length: 255 })
   matKhau: string;
