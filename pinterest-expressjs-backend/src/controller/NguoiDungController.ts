@@ -69,18 +69,25 @@ export class NguoiDungController {
       }
 
       if (matKhau) {
-        updateFields.matKhau = bcrypt.hashSync(matKhau, 10);
+        updateFields.matKhau = matKhau;
       }
 
       if (hoTen) {
         updateFields.hoTen = hoTen;
       }
 
-      // const errors = await validate(updateFields, { validationError: { target: false } });
-      // if (errors.length > 0) {
-      //   responseData(response, "Có lỗi đầu vào!", errors, 400);
-      //   return;
-      // }
+      const userFake = Object.assign(new NguoiDung(), updateFields);
+
+      const errors = await validate(userFake, { validationError: { target: false, value: false }, skipMissingProperties: true });
+
+      if (errors.length > 0) {
+        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        return;
+      }
+
+      if (matKhau) {
+        updateFields.matKhau = bcrypt.hashSync(matKhau, 10);
+      }
 
       await AppDataSource.createQueryBuilder()
         .update(NguoiDung)
