@@ -163,18 +163,18 @@ export class HinhAnhController {
     try {
       const pictureName = request.params.pictureName;
 
-      const queryPictures = await this.hinhAnhRepository
+      const [data, count] = await this.hinhAnhRepository
         .createQueryBuilder("hinh_anh")
         .where("LOWER(ten_hinh) LIKE LOWER(:ten_hinh)", { ten_hinh: `%${pictureName.toLowerCase()}%` })
         .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
         .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
-        .getMany();
+        .getManyAndCount();
 
-      if (queryPictures.length === 0) {
+      if (data.length === 0) {
         responseData(response, "Không tìm thấy hình ảnh nào!", "", 400);
         return;
       }
-      responseData(response, "Thành công", queryPictures, 200);
+      responseData(response, "Thành công", { count, data }, 200);
     } catch {
       responseData(response, "Lỗi ...", "", 500);
     }
