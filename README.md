@@ -58,18 +58,22 @@ We hope you have a wonderful time using Picturest!
 - Oracle
 - Docker
 
-### Frontend
+### Frontend & Design
 
 - Ionic
 - React
 - Ant Design
 - WindiCSS
 - Redux
+- Figma
+- Canva
+- Adobe Photoshop
+- Adobe Illustrator
 
 ### Runtime and Tools
 
-- Bun
-- NPM
+- Bun (BE project)
+- NPM (FE project)
 
 ### Development Tools
 
