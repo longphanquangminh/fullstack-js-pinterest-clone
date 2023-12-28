@@ -23,13 +23,14 @@ export const decodeToken = token => {
 export const verifyToken = (req, res, next) => {
   const { token } = req.headers;
 
-  const check = checkToken(token);
+  try {
+    // Try to verify the token
+    jwt.verify(token, "BIMAT");
 
-  if (check == null) {
-    // check token hợp lệ
+    // Token is valid, move to the next middleware
     next();
-  } else {
-    // token không hợp lệ
-    res.status(401).send("Token không hợp lệ");
+  } catch (error) {
+    // Token is invalid
+    res.status(401).send(error.name);
   }
 };

@@ -4,6 +4,7 @@ import { BinhLuanController } from "./controller/BinhLuanController";
 import { LuuAnhController } from "./controller/LuuAnhController";
 import { NguoiDungController } from "./controller/NguoiDungController";
 import upload from "./config/upload";
+import { verifyToken } from "./config/jwt";
 
 export const Routes: any = [
   {
