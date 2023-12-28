@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { IsNumber, IsOptional, IsString, MaxLength, IsEmail, MinLength } from "class-validator";
+import { IsNumber, IsOptional, IsString, MaxLength, IsEmail, MinLength, Matches } from "class-validator";
 
 import { BinhLuan } from "./BinhLuan";
 import { HinhAnh } from "./HinhAnh";
@@ -13,6 +13,7 @@ export class NguoiDung {
   @IsOptional()
   @IsString()
   @MaxLength(255)
+  @Matches(/^.*\.(jpg|jpeg|png|gif|bmp|tiff|webp|svg)$/i, { message: "Invalid image path" })
   @Column("varchar2", { name: "ANH_DAI_DIEN", nullable: true, length: 255 })
   anhDaiDien: string | null;
 

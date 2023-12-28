@@ -19,7 +19,7 @@ export class HinhAnh {
   @IsNotEmpty()
   @IsString()
   @MaxLength(255)
-  @Matches(/^[a-zA-Z0-9_\-]+\.([a-zA-Z0-9]+)$/i, { message: "Invalid image path" })
+  @Matches(/^.*\.(jpg|jpeg|png|gif|bmp|tiff|webp|svg)$/i, { message: "Invalid image path" })
   @Column("varchar2", { name: "DUONG_DAN", length: 255 })
   duongDan: string;
 
