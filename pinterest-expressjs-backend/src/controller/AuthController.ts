@@ -36,9 +36,14 @@ export class AuthController {
         responseData(response, "Vui lòng nhập tuổi!", "", 400);
         return;
       }
-      const file = request.file;
+      const file = request.files as Express.Multer.File[];
+
+      if (file.length > 1) {
+        responseData(response, "Vui lòng tải lên không quá 1 hình ảnh!", "", 400);
+        return;
+      }
       const userFake = Object.assign(new NguoiDung(), {
-        anhDaiDien: file?.filename ?? null,
+        anhDaiDien: file.length === 1 ? file[0].filename : null,
         tuoi: !isNaN(tuoi) ? parseInt(tuoi) : tuoi,
         matKhau,
         hoTen,
@@ -50,7 +55,7 @@ export class AuthController {
         return;
       }
       const user = Object.assign(new NguoiDung(), {
-        anhDaiDien: file?.filename ?? null,
+        anhDaiDien: file.length === 1 ? file[0].filename : null,
         tuoi,
         matKhau: bcrypt.hashSync(matKhau, 10),
         hoTen,
