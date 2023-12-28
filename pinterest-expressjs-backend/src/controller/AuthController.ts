@@ -39,7 +39,7 @@ export class AuthController {
       const file = request.file;
       const userFake = Object.assign(new NguoiDung(), {
         anhDaiDien: file?.filename ?? null,
-        tuoi,
+        tuoi: !isNaN(tuoi) ? parseInt(tuoi) : tuoi,
         matKhau,
         hoTen,
         email,
