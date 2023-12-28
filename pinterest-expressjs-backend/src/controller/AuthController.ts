@@ -74,6 +74,15 @@ export class AuthController {
         responseData(response, "Vui lòng nhập mật khẩu!", "", 400);
         return;
       }
+      const userFake = Object.assign(new NguoiDung(), {
+        matKhau,
+        email,
+      });
+      const errors = await validate(userFake, { validationError: { target: false }, skipMissingProperties: true });
+      if (errors.length > 0) {
+        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        return;
+      }
       const checkUser = await this.nguoiDungRepository.findOneBy({
         email,
       });
