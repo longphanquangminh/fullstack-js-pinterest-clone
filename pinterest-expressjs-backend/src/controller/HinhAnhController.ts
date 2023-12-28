@@ -152,7 +152,8 @@ export class HinhAnhController {
         .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
         .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .getMany();
-      responseData(response, "Thành công", data, 200);
+      const count = await this.hinhAnhRepository.count();
+      responseData(response, "Thành công", { count, data }, 200);
     } catch {
       responseData(response, "Lỗi ...", "", 500);
     }
