@@ -147,7 +147,11 @@ export class HinhAnhController {
 
   async getPictures(request: Request, response: Response, next: NextFunction) {
     try {
-      const data = await this.hinhAnhRepository.find();
+      const data = await this.hinhAnhRepository
+        .createQueryBuilder("hinh_anh")
+        .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
+        .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
+        .getMany();
       responseData(response, "Thành công", data, 200);
     } catch {
       responseData(response, "Lỗi ...", "", 500);
