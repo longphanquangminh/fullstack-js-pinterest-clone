@@ -69,7 +69,7 @@ We hope you have a wonderful time using Picturest!
 - Vite
 - TinyMCE (experiment)
 - Figma
-- Canva
+- Canva (design logo)
 - Adobe Photoshop
 - Adobe Illustrator
 
