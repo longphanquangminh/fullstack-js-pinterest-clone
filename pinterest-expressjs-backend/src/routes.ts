@@ -51,6 +51,12 @@ export const Routes: any = [
   },
   {
     method: "post",
+    route: "/saved/:pictureId",
+    controller: LuuAnhController,
+    action: "postSave",
+  },
+  {
+    method: "post",
     route: "/comments/:pictureId",
     controller: BinhLuanController,
     action: "postComment",

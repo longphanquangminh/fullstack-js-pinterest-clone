@@ -149,6 +149,7 @@ export class HinhAnhController {
     try {
       const data = await this.hinhAnhRepository
         .createQueryBuilder("hinh_anh")
+        .orderBy("hinh_anh.hinhId", "DESC")
         .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
         .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .getMany();
@@ -165,6 +166,7 @@ export class HinhAnhController {
 
       const [data, count] = await this.hinhAnhRepository
         .createQueryBuilder("hinh_anh")
+        .orderBy("hinh_anh.hinhId", "DESC")
         .where("LOWER(ten_hinh) LIKE LOWER(:ten_hinh)", { ten_hinh: `%${pictureName.toLowerCase()}%` })
         .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
         .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])

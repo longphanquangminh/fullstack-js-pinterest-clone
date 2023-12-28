@@ -16,7 +16,7 @@
 					"formdata": [
 						{
 							"key": "email",
-							"value": "long@gmail.testdemocc",
+							"value": "long@gmail.comaaatest",
 							"type": "text"
 						},
 						{
@@ -37,7 +37,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/home/long/Downloads/1686560723046.jpeg"
+							"src": "/home/long/Downloads/411932666_1076020943648867_987494494395559660_n.jpg"
 						}
 					]
 				},
@@ -377,31 +377,6 @@
 					"port": "8080",
 					"path": [
 						"pictures"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "localhost:8080/saved/19",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pRHVuZ0lkIjoxLCJrZXkiOjE3MDM3NzIwNjkwODJ9LCJpYXQiOjE3MDM3NzIwNjl9.r3VdOcztecO8OykcD_-4-NxszS_LkdUrnlAoCJb5LYk",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "localhost:8080/saved/19",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"saved",
-						"19"
 					]
 				}
 			},

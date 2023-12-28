@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as cors from "cors";
 import { AppDataSource } from "./data-source";
 import { Routes } from "./routes";
 
@@ -11,6 +12,7 @@ AppDataSource.initialize()
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
     app.use(express.static("."));
+    app.use(cors());
 
     Routes.forEach(route => {
       const controllers = new (route.controller as any)();

@@ -10,6 +10,67 @@ export class LuuAnhController {
   private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
   private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
+  async postSave(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { pictureId } = request.params;
+
+      const picture = await this.hinhAnhRepository.findOne({
+        where: { hinhId: +pictureId },
+      });
+
+      if (!picture) {
+        responseData(response, "Không tìm thấy hình ảnh!", "", 400);
+        return;
+      }
+
+      const { token } = request.headers;
+
+      if (!token || token == "" || token == null || token == undefined) {
+        responseData(response, "Chưa truyền token!", "", 400);
+        return;
+      }
+
+      const accessToken = decodeToken(token);
+
+      const user = await this.nguoiDungRepository.findOne({
+        where: { nguoiDungId: accessToken.data.nguoiDungId },
+      });
+
+      if (!user) {
+        responseData(response, "Token không hợp lệ!", "", 401);
+        return;
+      }
+
+      const checkPicture = await this.luuAnhRepository
+        .createQueryBuilder("luuAnh")
+        .where({
+          hinh: {
+            hinhId: pictureId,
+          },
+          nguoiDung: {
+            nguoiDungId: accessToken.data.nguoiDungId,
+          },
+        })
+        .getOne();
+
+      if (!checkPicture) {
+        const userSavePic = Object.assign(new LuuAnh(), {
+          ngayLuu: new Date(),
+          hinh: picture,
+          nguoiDung: user,
+        });
+
+        await this.luuAnhRepository.save(userSavePic);
+        responseData(response, "Đã lưu ảnh!", "", 200);
+        return;
+      }
+      await this.luuAnhRepository.remove(checkPicture);
+      responseData(response, "Đã bỏ lưu ảnh!", "", 200);
+    } catch {
+      responseData(response, "Lỗi ...", "", 500);
+    }
+  }
+
   async getSavedPicturesByUser(request: Request, response: Response, next: NextFunction) {
     try {
       const userId = request.params.userId;
