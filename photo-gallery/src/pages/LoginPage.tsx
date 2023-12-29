@@ -1,32 +1,15 @@
 import { IonContent, IonPage } from "@ionic/react";
-import { Form, Input } from "antd";
+import { Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   const [form] = Form.useForm();
   const onFinishFailed = (errorInfo: any) => {
     console.error("Failed:", errorInfo);
   };
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const onFinish = (values: any) => {
-    userServ
-      .login(values)
-      .then(res => {
-        const data = {
-          ...res.data.content.user,
-          token: res.data.content.token,
-        };
-        dispatch(setLogin({ ...data }));
-        userLocalStorage.set({ ...data });
-        message.success("Đăng nhập thành công!");
-        navigate("/");
-      })
-      .catch(err => {
-        message.error(err.response.data.content);
-      });
-  };
+  const onFinish = (values: any) => {};
   return (
     <IonPage>
       <IonContent fullscreen>
