@@ -1,22 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { userLocalStorage } from "../api/localService";
 
 const initialState = {
-  allUsers: null,
-  totalUsers: null,
+  user: userLocalStorage.get(),
 };
 
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
   reducers: {
-    getAllUsers: (state, action) => {
-      state.allUsers = action.payload;
-    },
-    setTotalUsers: (state, action) => {
-      state.totalUsers = action.payload;
+    setLogin: (state, action) => {
+      state.user = action.payload;
     },
   },
 });
 
-export const { getAllUsers, setTotalUsers } = userSlice.actions;
+export const { setLogin } = userSlice.actions;
 export default userSlice.reducer;

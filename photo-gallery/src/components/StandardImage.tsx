@@ -36,7 +36,7 @@ const StandardImage: React.FC<ContainerProps> = ({ item }) => {
             <img alt='' className='w-9 h-9 rounded-3xl' src={`${API_URL_IMG}/${item.nguoiDung?.anhDaiDien}`} onError={onImageError} />
             <span className='truncate'>{item.nguoiDung?.hoTen ?? "User"}</span>
           </div>
-          <div className='truncate w-[95%] mx-auto'>{item.moTa}</div>
+          <div className='truncate w-[100%] mx-auto'>{item.tenHinh}</div>
         </div>
       </div>
       <img alt='' className='rounded-3xl h-96 w-full object-cover' src={`${API_URL_IMG}/${item.duongDan}`} onError={onImageError} />

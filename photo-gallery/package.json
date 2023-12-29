@@ -30,6 +30,7 @@
     "antd": "^5.12.5",
     "axios": "^1.6.3",
     "ionicons": "^7.0.0",
+    "lucide-react": "^0.303.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",

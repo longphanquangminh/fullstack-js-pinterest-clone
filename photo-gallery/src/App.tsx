@@ -23,8 +23,10 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import "./index.css";
 import ImageDetail from "./pages/ImageDetail";
 import LoginPage from "./pages/LoginPage";
+import { Camera, CircleUser, Home } from "lucide-react";
 
 setupIonicReact();
 
@@ -48,12 +50,16 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot='bottom'>
           <IonTabButton tab='home' href='/home'>
-            <IonIcon aria-hidden='true' icon={triangle} />
-            <IonLabel>Home</IonLabel>
+            <Home />
+            {/* <IonLabel>Home</IonLabel> */}
+          </IonTabButton>
+          <IonTabButton tab='post' href='/post'>
+            <Camera />
+            {/* <IonLabel>Post</IonLabel> */}
           </IonTabButton>
           <IonTabButton tab='login' href='/login'>
-            <IonIcon aria-hidden='true' icon={ellipse} />
-            <IonLabel>Login</IonLabel>
+            <CircleUser />
+            {/* <IonLabel>Login</IonLabel> */}
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
