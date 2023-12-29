@@ -27,7 +27,7 @@ const Tab1: React.FC = () => {
             <IonTitle size='large'>Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div className='w-[95%] mx-auto py-6 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+        <div className='w-[95%] mx-auto py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
           {pictures.map((item: hinhAnh, index) => (
             <StandardImage key={index} item={item} />
           ))}

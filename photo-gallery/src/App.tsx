@@ -23,6 +23,8 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import ImageDetail from "./pages/ImageDetail";
+import LoginPage from "./pages/LoginPage";
 
 setupIonicReact();
 
@@ -34,8 +36,11 @@ const App: React.FC = () => (
           <Route exact path='/home'>
             <Tab1 />
           </Route>
+          <Route exact path='/pictures/:pictureId'>
+            <ImageDetail />
+          </Route>
           <Route exact path='/login'>
-            <Tab2 />
+            <LoginPage />
           </Route>
           <Route exact path='/'>
             <Redirect to='/home' />

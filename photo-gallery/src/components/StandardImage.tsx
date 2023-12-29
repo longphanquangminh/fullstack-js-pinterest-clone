@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DEFAULT_IMG, API_URL_IMG } from "../constants/variables";
 import { hinhAnh } from "../api/generated/picturest";
+import { Link } from "react-router-dom";
 
 interface ContainerProps {
   item: hinhAnh;
@@ -13,7 +14,12 @@ const onImageError = (e: any) => {
 const StandardImage: React.FC<ContainerProps> = ({ item }) => {
   const [isHover, setIsHover] = useState(false);
   return (
-    <div className='relative cursor-pointer' onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
+    <Link
+      to={`/pictures/${item.hinhId}`}
+      className='relative cursor-pointer'
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
       <div className={`absolute inset-0 w-full h-full bg-black rounded-3xl duration-300 ${isHover ? "opacity-50" : "opacity-0"}`}></div>
       <div
         className={`absolute bottom-0 bg-black h-28 w-full rounded-b-3xl ${
@@ -34,7 +40,7 @@ const StandardImage: React.FC<ContainerProps> = ({ item }) => {
         </div>
       </div>
       <img alt='' className='rounded-3xl h-96 w-full object-cover' src={`${API_URL_IMG}/${item.duongDan}`} onError={onImageError} />
-    </div>
+    </Link>
   );
 };
 
