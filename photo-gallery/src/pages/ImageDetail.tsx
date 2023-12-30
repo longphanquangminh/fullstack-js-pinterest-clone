@@ -1,6 +1,6 @@
 import { Comment } from "@ant-design/compatible";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import Header from "../components/Header";
 import axios from "axios";
 import { API_URL, API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
@@ -12,6 +12,7 @@ import StandardImage from "../components/StandardImage";
 import TextArea from "antd/es/input/TextArea";
 import { https } from "../api/config";
 import { useSelector } from "react-redux";
+import { ArrowLeftCircle } from "lucide-react";
 
 interface RouteParams {
   pictureId: string;
@@ -60,17 +61,17 @@ export default function ImageDetail() {
     setValue(e.target.value);
   };
 
-  const fetchCommentData = async () => {
-    try {
-      const commentListResponse = await https.get(`/binh-luan/lay-binh-luan-theo-phong/${pictureId}`);
-      setComments((prevRoom: any) => ({
-        ...prevRoom,
-        danhSachBinhLuan: commentListResponse.data.content.reverse(),
-      }));
-    } catch (err) {
-      setError("Error fetching data! Please try again!");
-      console.error(err);
-    }
+  const fetchCommentData = () => {
+    axios
+      .get(`${import.meta.env.VITE_BASE_BACKEND_URL}/comments/${pictureId}`)
+      .then(res => {
+        setError(null);
+        setComments(res.data.content);
+      })
+      .catch(err => {
+        setError("Error fetching data! Please try again!");
+        console.error(err);
+      });
   };
 
   const handleSubmit = () => {
@@ -81,8 +82,8 @@ export default function ImageDetail() {
       setValue("");
       https
         .post(
-          `/binh-luan`,
-          { ngayBinhLuan: new Date(), noiDung: value },
+          `/comments/${pictureId}`,
+          { noiDung: value },
           {
             headers: { token: user.token },
           },
@@ -108,25 +109,24 @@ export default function ImageDetail() {
       .then(res => setData(res.data.content))
       .catch(err => console.log(err))
       .finally(() => setLoading(false));
-    axios.get(`${import.meta.env.VITE_BASE_BACKEND_URL}/pictures`).then(res => {
-      setPictures(res.data.content.data);
-    });
-    axios.get(`${import.meta.env.VITE_BASE_BACKEND_URL}/comments/${pictureId}`).then(res => {
-      setComments(res.data.content);
-    });
+    axios
+      .get(`${import.meta.env.VITE_BASE_BACKEND_URL}/pictures`)
+      .then(res => {
+        setPictures(res.data.content.data);
+      })
+      .catch(err => console.log(err));
+    fetchCommentData();
   }, []);
+
+  const history = useHistory();
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <Header />
-        </IonToolbar>
-      </IonHeader>
       <IonContent fullscreen>
-        {error ? (
-          <div className='w-full text-center flex justify-center items-center'>Error: {error}</div>
-        ) : loading ? (
+        <div className='py-6 mx-auto w-[95%]'>
+          <ArrowLeftCircle className='cursor-pointer' onClick={() => history.goBack()} size={32} />
+        </div>
+        {loading ? (
           <div className='py-6 mx-auto w-[95%]'>Loading...</div>
         ) : (
           <div className='py-6 mx-auto w-[95%]'>
@@ -153,10 +153,10 @@ export default function ImageDetail() {
               </div>
               <div>
                 <p className='font-3xl text-black font-bold'>Comments</p>
-                {comments.length === 0 || !comments ? (
+                {!comments || comments === "" || comments.length === 0 ? (
                   <p>No comments yet!</p>
                 ) : (
-                  <div className='space-y-3 h-72 overflow-auto overscroll-auto'>
+                  <div className='space-y-3 max-h-72 overflow-auto overscroll-auto'>
                     {comments.map((item: any, index: number) => (
                       <div key={index}>
                         <div className='flex items-center justify-start gap-3'>

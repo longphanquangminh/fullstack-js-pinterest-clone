@@ -28,6 +28,7 @@ import { Camera, CircleUser, Cog, Home } from "lucide-react";
 import RegisterPage from "./pages/RegisterPage";
 import PostPage from "./pages/PostPage";
 import { useSelector } from "react-redux";
+import SettingPage from "./pages/SettingPage";
 
 setupIonicReact();
 
@@ -54,6 +55,9 @@ const App: React.FC = () => {
             </Route>
             <Route exact path='/post'>
               <PostPage />
+            </Route>
+            <Route exact path='/settings'>
+              <SettingPage />
             </Route>
             <Route exact path='/'>
               <Redirect to='/home' />

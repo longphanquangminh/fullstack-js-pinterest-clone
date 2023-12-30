@@ -89,6 +89,7 @@ export class BinhLuanController {
       }
       const comments = await this.binhLuanRepository
         .createQueryBuilder("binhLuan")
+        .orderBy("binhLuan.binhLuanId", "DESC")
         .leftJoinAndSelect("binhLuan.nguoiDung", "nguoiDung")
         .select(["binhLuan", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .where({
@@ -99,7 +100,7 @@ export class BinhLuanController {
         .getMany();
 
       if (comments.length === 0) {
-        responseData(response, "No comments!", "", 400);
+        responseData(response, "No comments!", [], 400);
         return;
       }
       responseData(response, "Success", comments, 200);
