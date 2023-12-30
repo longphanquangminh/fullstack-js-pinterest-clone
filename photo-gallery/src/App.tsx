@@ -25,6 +25,7 @@ import "./index.css";
 import ImageDetail from "./pages/ImageDetail";
 import LoginPage from "./pages/LoginPage";
 import { Camera, CircleUser, Home } from "lucide-react";
+import RegisterPage from "./pages/RegisterPage";
 
 setupIonicReact();
 
@@ -41,6 +42,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path='/login'>
             <LoginPage />
+          </Route>
+          <Route exact path='/register'>
+            <RegisterPage />
           </Route>
           <Route exact path='/'>
             <Redirect to='/home' />

@@ -20,7 +20,7 @@ export default function LoginPage() {
           <div className='flex flex-1 justify-center items-center'>
             <div className='p-6 m-2 bg-white rounded-lg w-2/3 md:w-1/3 space-y-3'>
               <div className='grid grid-cols-1 items-center gap-3'>
-                <div className='basis-1/4'>
+                <div>
                   <Link to='/'>
                     <img
                       alt='logo'

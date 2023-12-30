@@ -1,13 +1,17 @@
+import { Comment } from "@ant-design/compatible";
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { useParams } from "react-router";
 import Header from "../components/Header";
 import axios from "axios";
 import { API_URL, API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
 import { useEffect, useState } from "react";
-import { Image } from "antd";
+import { Avatar, Button, Form, Image, Rate, message } from "antd";
 import { Link } from "react-router-dom";
 import { hinhAnh } from "../api/generated/picturest";
 import StandardImage from "../components/StandardImage";
+import TextArea from "antd/es/input/TextArea";
+import { https } from "../api/config";
+import { useSelector } from "react-redux";
 
 interface RouteParams {
   pictureId: string;
@@ -17,6 +21,27 @@ const onImageError = (e: any) => {
   e.target.src = DEFAULT_IMG;
 };
 
+const Editor = ({ onChange, onSubmit, submitting, value }: any) => (
+  <>
+    <Form.Item>
+      <TextArea
+        rows={4}
+        onChange={onChange}
+        value={value}
+        style={{
+          resize: "none",
+        }}
+        placeholder='Write comment...'
+      />
+    </Form.Item>
+    <Form.Item>
+      <Button disabled={!value} htmlType='submit' loading={submitting} onClick={onSubmit} type='primary'>
+        Comment
+      </Button>
+    </Form.Item>
+  </>
+);
+
 export default function ImageDetail() {
   const { pictureId } = useParams<RouteParams>();
   const [pictures, setPictures] = useState<any>([]);
@@ -24,6 +49,53 @@ export default function ImageDetail() {
   const [comments, setComments] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [antdImgErr, setAntdImgErr] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useSelector((state: any) => {
+    return state.userSlice;
+  });
+
+  const handleChange = (e: any) => {
+    setValue(e.target.value);
+  };
+
+  const fetchCommentData = async () => {
+    try {
+      const commentListResponse = await https.get(`/binh-luan/lay-binh-luan-theo-phong/${pictureId}`);
+      setComments((prevRoom: any) => ({
+        ...prevRoom,
+        danhSachBinhLuan: commentListResponse.data.content.reverse(),
+      }));
+    } catch (err) {
+      setError("Error fetching data! Please try again!");
+      console.error(err);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!value) return;
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      setValue("");
+      https
+        .post(
+          `/binh-luan`,
+          { ngayBinhLuan: new Date(), noiDung: value },
+          {
+            headers: { token: user.token },
+          },
+        )
+        .then(() => {
+          message.success("You've successfully posted your comment");
+          fetchCommentData();
+        })
+        .catch(err => {
+          message.error(err.response.data.content.replace(/^\w/, (c: any) => c.toUpperCase()));
+        });
+    }, 1000);
+  };
 
   const onImageAntdError = (e: any) => {
     e.target.src = DEFAULT_IMG;
@@ -52,7 +124,9 @@ export default function ImageDetail() {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {loading ? (
+        {error ? (
+          <div className='w-full text-center flex justify-center items-center'>Error: {error}</div>
+        ) : loading ? (
           <div className='py-6 mx-auto w-[95%]'>Loading...</div>
         ) : (
           <div className='py-6 mx-auto w-[95%]'>
@@ -62,7 +136,7 @@ export default function ImageDetail() {
                   className='object-cover'
                   src={antdImgErr ? DEFAULT_IMG : `${API_URL_IMG}/${data.duongDan}`}
                   onError={onImageAntdError}
-                  height={300}
+                  height={500}
                 />
                 <div className='space-y-3'>
                   <div className='flex items-center justify-start gap-3'>
@@ -82,7 +156,7 @@ export default function ImageDetail() {
                 {comments.length === 0 || !comments ? (
                   <p>No comments yet!</p>
                 ) : (
-                  <div className='space-y-3 h-64 overflow-auto overscroll-auto'>
+                  <div className='space-y-3 h-72 overflow-auto overscroll-auto'>
                     {comments.map((item: any, index: number) => (
                       <div key={index}>
                         <div className='flex items-center justify-start gap-3'>
@@ -98,6 +172,14 @@ export default function ImageDetail() {
                     ))}
                   </div>
                 )}
+                <div className='relative'>
+                  <Comment
+                    avatar={<Avatar src={user && user?.anhDaiDien !== "" ? user?.anhDaiDien : DEFAULT_IMG} alt='' />}
+                    content={<Editor onChange={handleChange} onSubmit={handleSubmit} submitting={submitting} value={value} />}
+                  />
+                  <div className='absolute left-0 top-0 bg-white opacity-50 w-full h-full flex justify-center items-center'></div>
+                  <div className='absolute left-0 top-0 w-full h-full flex justify-center items-center'>Please login to comment!</div>
+                </div>
               </div>
             </div>
             <div>

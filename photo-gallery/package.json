@@ -12,6 +12,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ant-design/compatible": "^5.1.2",
     "@ant-design/icons": "^5.2.6",
     "@capacitor/app": "5.0.6",
     "@capacitor/camera": "^5.0.8",
