@@ -2,7 +2,9 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import { AppDataSource } from "./data-source";
+import * as swaggerUi from "swagger-ui-express";
 import { Routes } from "./routes";
+import { default as swaggerDocument } from "./swagger";
 
 const LISTEN_PORT = 8080;
 
@@ -13,6 +15,7 @@ AppDataSource.initialize()
     app.use(bodyParser.json());
     app.use(express.static("."));
     app.use(cors());
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     Routes.forEach(route => {
       const controllers = new (route.controller as any)();
