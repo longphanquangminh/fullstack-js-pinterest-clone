@@ -19,14 +19,14 @@ export class NguoiDungController {
       });
 
       if (!checkUser) {
-        responseData(response, "Không tìm thấy người dùng", "", 400);
+        responseData(response, "Can't find user!", "", 400);
         return;
       }
 
       const { token } = request.headers;
 
       if (!token || token == "" || token == null || token == undefined) {
-        responseData(response, "Chưa truyền token!", "", 400);
+        responseData(response, "Don't have token!", "", 400);
         return;
       }
 
@@ -37,7 +37,7 @@ export class NguoiDungController {
       });
 
       if (!user || accessToken.data.nguoiDungId !== userId) {
-        responseData(response, "Token không hợp lệ!", "", 401);
+        responseData(response, "Token is not valid!", "", 401);
         return;
       }
 
@@ -52,7 +52,7 @@ export class NguoiDungController {
           email,
         });
         if (checkUserEmail && checkUserEmail.nguoiDungId !== userId) {
-          responseData(response, "Email đã được tài khoản khác sử dụng!", "", 400);
+          responseData(response, "Email has been already used!", "", 400);
           return;
         }
         updateFields.email = email;
@@ -81,7 +81,7 @@ export class NguoiDungController {
       const errors = await validate(userFake, { validationError: { target: false, value: false }, skipMissingProperties: true });
 
       if (errors.length > 0) {
-        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        responseData(response, "Input error!", errors, 400);
         return;
       }
 
@@ -96,7 +96,68 @@ export class NguoiDungController {
         .execute();
       responseData(response, "Cập nhật thông tin thành công", "", 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
+    }
+  }
+
+  async editUserAvatar(request: Request, response: Response, next: NextFunction) {
+    try {
+      const userId = parseInt(request.params.userId);
+
+      const checkUser = await this.nguoiDungRepository.findOne({
+        where: { nguoiDungId: userId },
+      });
+
+      if (!checkUser) {
+        responseData(response, "Can't find user!", "", 400);
+        return;
+      }
+
+      const { token } = request.headers;
+
+      if (!token || token == "" || token == null || token == undefined) {
+        responseData(response, "Don't have token!", "", 400);
+        return;
+      }
+
+      const accessToken = decodeToken(token);
+
+      const user = await this.nguoiDungRepository.findOne({
+        where: { nguoiDungId: accessToken.data.nguoiDungId },
+      });
+
+      if (!user || accessToken.data.nguoiDungId !== userId) {
+        responseData(response, "Token is not valid!", "", 401);
+        return;
+      }
+
+      const file = request.file;
+
+      const updateFields: updateInfoType = {
+        anhDaiDien: user.anhDaiDien,
+      };
+
+      if (file) {
+        updateFields.anhDaiDien = file.filename;
+      }
+
+      const userFake = Object.assign(new NguoiDung(), updateFields);
+
+      const errors = await validate(userFake, { validationError: { target: false, value: false }, skipMissingProperties: true });
+
+      if (errors.length > 0) {
+        responseData(response, "Input error!", errors, 400);
+        return;
+      }
+
+      await AppDataSource.createQueryBuilder()
+        .update(NguoiDung)
+        .set(updateFields)
+        .where("nguoi_dung_id = :nguoi_dung_id", { nguoi_dung_id: accessToken.data.nguoiDungId })
+        .execute();
+      responseData(response, "Cập nhật thông tin thành công", "", 200);
+    } catch {
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -109,7 +170,7 @@ export class NguoiDungController {
       });
 
       if (!user) {
-        responseData(response, "Không tìm thấy người dùng", "", 400);
+        responseData(response, "Can't find user!", "", 400);
         return;
       }
       responseData(
@@ -125,7 +186,7 @@ export class NguoiDungController {
         200,
       );
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 }

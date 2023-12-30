@@ -24,49 +24,64 @@ import "./theme/variables.css";
 import "./index.css";
 import ImageDetail from "./pages/ImageDetail";
 import LoginPage from "./pages/LoginPage";
-import { Camera, CircleUser, Home } from "lucide-react";
+import { Camera, CircleUser, Cog, Home } from "lucide-react";
 import RegisterPage from "./pages/RegisterPage";
+import PostPage from "./pages/PostPage";
+import { useSelector } from "react-redux";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path='/home'>
-            <HomePage />
-          </Route>
-          <Route exact path='/pictures/:pictureId'>
-            <ImageDetail />
-          </Route>
-          <Route exact path='/login'>
-            <LoginPage />
-          </Route>
-          <Route exact path='/register'>
-            <RegisterPage />
-          </Route>
-          <Route exact path='/'>
-            <Redirect to='/home' />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot='bottom'>
-          <IonTabButton tab='home' href='/home'>
-            <Home />
-            {/* <IonLabel>Home</IonLabel> */}
-          </IonTabButton>
-          <IonTabButton tab='post' href='/post'>
-            <Camera />
-            {/* <IonLabel>Post</IonLabel> */}
-          </IonTabButton>
-          <IonTabButton tab='login' href='/login'>
-            <CircleUser />
-            {/* <IonLabel>Login</IonLabel> */}
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const { user } = useSelector((state: any) => {
+    return state.userSlice;
+  });
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path='/home'>
+              <HomePage />
+            </Route>
+            <Route exact path='/pictures/:pictureId'>
+              <ImageDetail />
+            </Route>
+            <Route exact path='/login'>
+              <LoginPage />
+            </Route>
+            <Route exact path='/register'>
+              <RegisterPage />
+            </Route>
+            <Route exact path='/post'>
+              <PostPage />
+            </Route>
+            <Route exact path='/'>
+              <Redirect to='/home' />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot='bottom'>
+            <IonTabButton tab='home' href='/home'>
+              <Home />
+              {/* <IonLabel>Home</IonLabel> */}
+            </IonTabButton>
+            <IonTabButton tab='post' href='/post'>
+              <Camera />
+              {/* <IonLabel>Post</IonLabel> */}
+            </IonTabButton>
+            {!user ? (
+              <IonTabButton tab='login' href='/login'>
+                <CircleUser />
+              </IonTabButton>
+            ) : (
+              <IonTabButton tab='login' href='/settings'>
+                <Cog />
+              </IonTabButton>
+            )}
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

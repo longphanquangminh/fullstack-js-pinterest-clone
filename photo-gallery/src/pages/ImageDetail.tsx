@@ -174,11 +174,14 @@ export default function ImageDetail() {
                 )}
                 <div className='relative'>
                   <Comment
-                    avatar={<Avatar src={user && user?.anhDaiDien !== "" ? user?.anhDaiDien : DEFAULT_IMG} alt='' />}
+                    avatar={<Avatar src={user && user?.anhDaiDien !== "" ? `${API_URL_IMG}/${user?.anhDaiDien}` : DEFAULT_IMG} alt='' />}
                     content={<Editor onChange={handleChange} onSubmit={handleSubmit} submitting={submitting} value={value} />}
                   />
-                  <div className='absolute left-0 top-0 bg-white opacity-50 w-full h-full flex justify-center items-center'></div>
-                  <div className='absolute left-0 top-0 w-full h-full flex justify-center items-center'>Please login to comment!</div>
+
+                  {user === null && <div className='absolute left-0 top-0 bg-white opacity-50 w-full h-full flex justify-center items-center'></div>}
+                  {user === null && (
+                    <div className='absolute left-0 top-0 w-full h-full flex justify-center items-center'>Please login to comment!</div>
+                  )}
                 </div>
               </div>
             </div>

@@ -2,6 +2,9 @@ import { IonContent, IonPage } from "@ionic/react";
 import { Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { userServ } from "../api/api";
+import { setLogin } from "../redux/userSlice";
+import { userLocalStorage } from "../api/localService";
 
 export default function LoginPage() {
   const [form] = Form.useForm();
@@ -10,8 +13,23 @@ export default function LoginPage() {
     console.error("Failed:", errorInfo);
   };
   const dispatch = useDispatch();
-  const onFinish = (values: any) => {
-    history.push("/");
+  const onFinish = async (values: any) => {
+    userServ
+      .login(values)
+      .then((res: any) => {
+        const data = {
+          ...res.data.content.userInfo,
+          token: res.data.content.token,
+        };
+        dispatch(setLogin({ ...data }));
+        userLocalStorage.set({ ...data });
+        message.success("Login successfully!");
+        history.push("/");
+      })
+      .catch((err: any) => {
+        console.error("Error:", err);
+        message.error(err.response.data.message);
+      });
   };
   return (
     <IonPage>
@@ -51,7 +69,7 @@ export default function LoginPage() {
                 </Form.Item>
                 <Form.Item
                   label='Password'
-                  name='password'
+                  name='matKhau'
                   rules={[
                     {
                       required: true,

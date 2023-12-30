@@ -19,14 +19,14 @@ export class LuuAnhController {
       });
 
       if (!picture) {
-        responseData(response, "Không tìm thấy hình ảnh!", "", 400);
+        responseData(response, "Can't find image!", "", 400);
         return;
       }
 
       const { token } = request.headers;
 
       if (!token || token == "" || token == null || token == undefined) {
-        responseData(response, "Chưa truyền token!", "", 400);
+        responseData(response, "Don't have token!", "", 400);
         return;
       }
 
@@ -37,7 +37,7 @@ export class LuuAnhController {
       });
 
       if (!user) {
-        responseData(response, "Token không hợp lệ!", "", 401);
+        responseData(response, "Token is not valid!", "", 401);
         return;
       }
 
@@ -67,7 +67,7 @@ export class LuuAnhController {
       await this.luuAnhRepository.remove(checkPicture);
       responseData(response, "Đã bỏ lưu ảnh!", "", 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -80,7 +80,7 @@ export class LuuAnhController {
       });
 
       if (!user) {
-        responseData(response, "Người dùng không tồn tại!", "", 400);
+        responseData(response, "User does not exist!", "", 400);
         return;
       }
 
@@ -97,12 +97,12 @@ export class LuuAnhController {
         .getMany();
 
       if (savedPictures.length === 0) {
-        responseData(response, "Người dùng chưa lưu ảnh nào!", "", 400);
+        responseData(response, "User does not have any pictures!", "", 400);
         return;
       }
-      responseData(response, "Thành công", savedPictures, 200);
+      responseData(response, "Success", savedPictures, 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -115,14 +115,14 @@ export class LuuAnhController {
       });
 
       if (!picture) {
-        responseData(response, "Không tìm thấy hình ảnh!", "", 400);
+        responseData(response, "Can't find image!", "", 400);
         return;
       }
 
       const { token } = request.headers;
 
       if (!token || token == "" || token == null || token == undefined) {
-        responseData(response, "Chưa truyền token!", "", 400);
+        responseData(response, "Don't have token!", "", 400);
         return;
       }
 
@@ -133,7 +133,7 @@ export class LuuAnhController {
       });
 
       if (!user) {
-        responseData(response, "Token không hợp lệ!", "", 401);
+        responseData(response, "Token is not valid!", "", 401);
         return;
       }
 
@@ -169,7 +169,7 @@ export class LuuAnhController {
         200,
       );
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 }

@@ -10,22 +10,27 @@ export default function RegisterPage() {
     console.error("Failed:", errorInfo);
   };
   const history = useHistory();
-  const onFinish = (values: any) => {
-    const processValues = { ...values, gender: values.gender === "male" ? true : false };
-    userServ
-      .signup(processValues)
-      .then(() => {
-        message.success("Register successfully, please login!");
-        history.push("/login");
-      })
-      .catch(err => {
-        message.error(err.response.data.content);
-      });
+  const onFinish = async (values: any) => {
+    try {
+      const processValues = {
+        ...values,
+        tuoi: new Date().getFullYear() - new Date(values.birthday).getFullYear(),
+      };
+      delete processValues.birthday;
+
+      await userServ.signup(processValues);
+
+      message.success("Register successfully, please login!");
+      history.push("/login");
+    } catch (err: any) {
+      console.error("Error:", err);
+      message.error(err.response.data.message);
+    }
   };
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className='flex flex-col min-h-[calc(100vh-56px)] bg-image bg-center bg-cover bg-no-repeat bg-fixed relative'>
+        <div className='flex flex-col min-h-[calc(100vh-56px)] bg-image-2 bg-center bg-cover bg-no-repeat bg-fixed relative'>
           <div className='flex flex-1 justify-center items-center'>
             <div className='p-6 m-2 bg-white rounded-lg w-2/3 space-y-3'>
               <div>
@@ -42,22 +47,22 @@ export default function RegisterPage() {
                 <Form form={form} layout='vertical' onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
                   <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
                     <Form.Item
-                      name='name'
-                      label='Tên người dùng'
-                      tooltip='Họ tên của bạn'
+                      name='hoTen'
+                      label='Name'
+                      tooltip='Your full name'
                       rules={[
                         {
                           required: true,
-                          message: "Vui lòng ghi họ tên!",
+                          message: "Please type your full name",
                           whitespace: true,
                         },
                         {
                           pattern: new RegExp(/^[\p{L}\s'-]+$/u),
-                          message: "Họ tên nhập chưa đúng!",
+                          message: "Your name does not have right format",
                         },
                       ]}
                     >
-                      <Input placeholder='Điền tên vào đây...' />
+                      <Input placeholder='Input name here' />
                     </Form.Item>
                     <Form.Item
                       label='Email'
@@ -65,78 +70,51 @@ export default function RegisterPage() {
                       rules={[
                         {
                           required: true,
-                          message: "Vui lòng nhập email!",
+                          message: "Please type your email!",
                         },
                         {
                           type: "email",
-                          message: "Không đúng định dạng email!",
+                          message: "Invalid email format",
                         },
                       ]}
                     >
                       <Input placeholder='example@gmail.com' />
                     </Form.Item>
                     <Form.Item
-                      name='phone'
-                      label='Số điện thoại'
-                      rules={[
-                        {
-                          pattern: new RegExp(/^0(?!0)\d{9}$/g),
-                          message: "Không đúng định dạng số điện thoại!",
-                        },
-                        {
-                          required: true,
-                          message: "Vui lòng nhập số điện thoại!",
-                        },
-                      ]}
-                    >
-                      <Input placeholder='0903 123 123' />
-                    </Form.Item>
-                    <Form.Item
-                      label='Mật khẩu'
-                      name='password'
+                      label='Password'
+                      name='matKhau'
                       rules={[
                         {
                           required: true,
-                          message: "Vui lòng nhập mật khẩu!",
+                          message: "Please type your password!",
                         },
                         {
                           min: 6,
-                          message: "Mật khẩu phải có tối thiểu 6 kí tự!",
+                          message: "Password must have at least 6 characters",
                         },
                       ]}
                     >
                       <Input.Password placeholder='********' />
                     </Form.Item>
                     <Form.Item
-                      name='gender'
-                      label='Giới tính'
-                      rules={[
-                        {
-                          required: true,
-                          message: "Vui lòng chọn giới tính!",
-                        },
-                      ]}
-                    >
-                      <Select placeholder='Chọn giới tính'>
-                        <Select.Option value='male'>Nam</Select.Option>
-                        <Select.Option value='female'>Nữ</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
                       name='birthday'
-                      label='Ngày sinh'
+                      label='Birthday'
                       rules={[
                         {
                           required: true,
-                          message: "Vui lòng chọn ngày sinh!",
+                          message: "Please select your birthday!",
                         },
                       ]}
                     >
-                      <DatePicker className='w-full' placeholder='Chọn ngày sinh' format='DD-MM-YYYY' />
+                      <DatePicker className='w-full' placeholder='Choose date' format='DD-MM-YYYY' />
                     </Form.Item>
                   </div>
                   <div className='mt-9'>
-                    <button className='cursor-pointer text-white w-full bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'>
+                    <button
+                      type='button'
+                      onClick={() => form.submit()}
+                      className='cursor-pointer text-white w-full bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'
+                    >
                       Register
                     </button>
                   </div>

@@ -1,6 +1,6 @@
-import { httpsNoLoading } from "./config";
+import { https } from "./config";
 
 export const userServ = {
-  login: (values: any) => httpsNoLoading.post("/auth/signin", values),
-  signup: (values: any) => httpsNoLoading.post("/auth/signup", values),
+  login: (values: any) => https.post("/login", values),
+  signup: (values: any) => https.post("/register", values),
 };

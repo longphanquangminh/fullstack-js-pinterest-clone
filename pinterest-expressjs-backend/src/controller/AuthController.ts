@@ -13,7 +13,7 @@ export class AuthController {
       const { tuoi, matKhau, hoTen, email } = request.body;
 
       if (!email) {
-        responseData(response, "Vui lòng nhập email!", "", 400);
+        responseData(response, "Please type email!", "", 400);
         return;
       }
 
@@ -21,29 +21,36 @@ export class AuthController {
         email,
       });
       if (checkUser) {
-        responseData(response, "Email đã tồn tại", "", 400);
+        responseData(response, "Email already exist!", "", 400);
         return;
       }
       if (!matKhau) {
-        responseData(response, "Vui lòng nhập mật khẩu!", "", 400);
+        responseData(response, "Please type password!", "", 400);
         return;
       }
       if (!hoTen) {
-        responseData(response, "Vui lòng nhập họ tên!", "", 400);
+        responseData(response, "Please type your full name!", "", 400);
         return;
       }
-      if (!tuoi) {
-        responseData(response, "Vui lòng nhập tuổi!", "", 400);
+      if (isNaN(tuoi) || !tuoi || !Number.isInteger(tuoi) || tuoi < 15) {
+        responseData(response, "Age must be a integer and higher than 14!", "", 400);
         return;
       }
-      const file = request.files as Express.Multer.File[];
+      // const file = request.files as Express.Multer.File[];
 
-      if (file.length > 1) {
-        responseData(response, "Vui lòng tải lên không quá 1 hình ảnh!", "", 400);
-        return;
-      }
+      // if (file.length > 1) {
+      //   responseData(response, "Please upload only 1 image!", "", 400);
+      //   return;
+      // }
+      // const userFake = Object.assign(new NguoiDung(), {
+      //   anhDaiDien: file.length === 1 ? file[0].filename : null,
+      //   tuoi: !isNaN(tuoi) ? parseInt(tuoi) : tuoi,
+      //   matKhau,
+      //   hoTen,
+      //   email,
+      // });
       const userFake = Object.assign(new NguoiDung(), {
-        anhDaiDien: file.length === 1 ? file[0].filename : null,
+        anhDaiDien: null,
         tuoi: !isNaN(tuoi) ? parseInt(tuoi) : tuoi,
         matKhau,
         hoTen,
@@ -51,11 +58,17 @@ export class AuthController {
       });
       const errors = await validate(userFake, { validationError: { target: false } });
       if (errors.length > 0) {
-        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        responseData(response, "Input error!", errors, 400);
         return;
       }
+      // const user = Object.assign(new NguoiDung(), {
+      //   anhDaiDien: file.length === 1 ? file[0].filename : null,
+      //   tuoi,
+      //   matKhau: bcrypt.hashSync(matKhau, 10),
+      //   hoTen,
+      //   email,
+      // });
       const user = Object.assign(new NguoiDung(), {
-        anhDaiDien: file.length === 1 ? file[0].filename : null,
         tuoi,
         matKhau: bcrypt.hashSync(matKhau, 10),
         hoTen,
@@ -64,7 +77,7 @@ export class AuthController {
       await this.nguoiDungRepository.save(user);
       responseData(response, "Đăng ký thành công", "", 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -72,11 +85,11 @@ export class AuthController {
     try {
       const { email, matKhau } = request.body;
       if (!email) {
-        responseData(response, "Vui lòng nhập email!", "", 400);
+        responseData(response, "Please type email!", "", 400);
         return;
       }
       if (!matKhau) {
-        responseData(response, "Vui lòng nhập mật khẩu!", "", 400);
+        responseData(response, "Please type password!", "", 400);
         return;
       }
       const userFake = Object.assign(new NguoiDung(), {
@@ -85,7 +98,7 @@ export class AuthController {
       });
       const errors = await validate(userFake, { validationError: { target: false, value: false }, skipMissingProperties: true });
       if (errors.length > 0) {
-        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        responseData(response, "Input error!", errors, 400);
         return;
       }
       const checkUser = await this.nguoiDungRepository.findOneBy({
@@ -98,15 +111,16 @@ export class AuthController {
             nguoiDungId: checkUser.nguoiDungId,
             key,
           });
-          responseData(response, "Đăng nhập thành công!", { token }, 200);
+          delete checkUser.matKhau;
+          responseData(response, "Login successfully!", { token, userInfo: checkUser }, 200);
         } else {
-          responseData(response, "Mật khẩu không đúng!", "", 400);
+          responseData(response, "Password is not correct!", "", 400);
         }
       } else {
-        responseData(response, "Email không tồn tại!", "", 400);
+        responseData(response, "Email does not exist!", "", 400);
       }
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 }

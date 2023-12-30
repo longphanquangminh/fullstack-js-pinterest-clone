@@ -20,28 +20,28 @@ export class BinhLuanController {
       });
 
       if (!picture) {
-        responseData(response, "Không tìm thấy hình ảnh!", "", 400);
+        responseData(response, "Can't find image!", "", 400);
         return;
       }
 
       const { noiDung } = request.body;
 
       if (!noiDung) {
-        responseData(response, "Chưa nhập nội dung bình luận", "", 400);
+        responseData(response, "No comment data!", "", 400);
         return;
       }
 
       const { token } = request.headers;
 
       if (!token || token == "" || token == null || token == undefined) {
-        responseData(response, "Chưa truyền token!", "", 400);
+        responseData(response, "Don't have token!", "", 400);
         return;
       }
 
       const accessToken = decodeToken(token);
 
       if (!accessToken.data?.nguoiDungId) {
-        responseData(response, "Token không hợp lệ", "", 401);
+        responseData(response, "Token is not valid!", "", 401);
         return;
       }
 
@@ -50,7 +50,7 @@ export class BinhLuanController {
       });
 
       if (!user) {
-        responseData(response, "Không xác thực được người dùng!", "", 401);
+        responseData(response, "Can't auth user!", "", 401);
         return;
       }
 
@@ -63,15 +63,15 @@ export class BinhLuanController {
 
       const errors = await validate(userComment, { validationError: { target: false } });
       if (errors.length > 0) {
-        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        responseData(response, "Input error!", errors, 400);
         return;
       }
 
       await this.binhLuanRepository.save(userComment);
-      responseData(response, "Bình luận thành công", "", 200);
+      responseData(response, "Comment successfully!", "", 200);
       return;
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -84,7 +84,7 @@ export class BinhLuanController {
       });
 
       if (!picture) {
-        responseData(response, "Không tìm thấy hình ảnh!", "", 400);
+        responseData(response, "Can't find image!", "", 400);
         return;
       }
       const comments = await this.binhLuanRepository
@@ -99,12 +99,12 @@ export class BinhLuanController {
         .getMany();
 
       if (comments.length === 0) {
-        responseData(response, "Chưa có bình luận!", "", 400);
+        responseData(response, "No comments!", "", 400);
         return;
       }
-      responseData(response, "Thành công", comments, 200);
+      responseData(response, "Success", comments, 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 }

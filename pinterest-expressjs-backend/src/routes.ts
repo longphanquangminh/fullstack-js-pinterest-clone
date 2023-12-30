@@ -12,12 +12,18 @@ export const Routes: any = [
     controller: AuthController,
     action: "login",
   },
+  // {
+  //   method: "post",
+  //   route: "/register",
+  //   controller: AuthController,
+  //   action: "register",
+  //   middleware: [upload.array("file")],
+  // },
   {
     method: "post",
     route: "/register",
     controller: AuthController,
     action: "register",
-    middleware: [upload.array("file")],
   },
   {
     method: "get",
@@ -90,6 +96,13 @@ export const Routes: any = [
     route: "/users/:userId",
     controller: NguoiDungController,
     action: "editUserInfo",
+    middleware: upload.single("file"),
+  },
+  {
+    method: "post",
+    route: "/users/avatar/:userId",
+    controller: NguoiDungController,
+    action: "editUserAvatar",
     middleware: upload.single("file"),
   },
   {
