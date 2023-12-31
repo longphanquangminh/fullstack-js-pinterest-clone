@@ -59,6 +59,23 @@ export default function ImageDetail() {
     return state.userSlice;
   });
 
+  const handleDelete = () => {
+    if (!user) {
+      message.error("Please login first!");
+    } else {
+      https
+        .delete(`/pictures/${pictureId}`)
+        .then(() => {
+          message.success("You've successfully deleted this picture!");
+          history.push("/");
+        })
+        .catch(err => {
+          console.log(err);
+          message.error(err.response.data.message.replace(/^\w/, (c: any) => c.toUpperCase()));
+        });
+    }
+  };
+
   const handleSavePicture = () => {
     if (!user) {
       message.error("Please login first!");
@@ -75,7 +92,7 @@ export default function ImageDetail() {
         })
         .catch(err => {
           console.log(err);
-          message.error(err.response.data.content.replace(/^\w/, (c: any) => c.toUpperCase()));
+          message.error(err.response.data.message.replace(/^\w/, (c: any) => c.toUpperCase()));
         });
     }
   };
@@ -116,7 +133,7 @@ export default function ImageDetail() {
           fetchCommentData();
         })
         .catch(err => {
-          message.error(err.response.data.content.replace(/^\w/, (c: any) => c.toUpperCase()));
+          message.error(err.response.data.message.replace(/^\w/, (c: any) => c.toUpperCase()));
         });
     }, 1000);
   };
@@ -181,13 +198,26 @@ export default function ImageDetail() {
                   </div>
                   <h1 className='text-3xl font-bold text-black'>{data.tenHinh}</h1>
                   <p className='text-justify'>{data.moTa}</p>
-                  <button
-                    type='button'
-                    className='cursor-pointer text-white w-52 bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'
-                    onClick={handleSavePicture}
-                  >
-                    {saved ? "Remove save" : "Save"}
-                  </button>
+                  <div>
+                    <button
+                      type='button'
+                      className='cursor-pointer text-white w-52 bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'
+                      onClick={handleSavePicture}
+                    >
+                      {saved ? "Remove save" : "Save"}
+                    </button>
+                  </div>
+                  <div>
+                    {user && user.nguoiDungId === data.nguoiDung?.nguoiDungId && (
+                      <button
+                        type='button'
+                        className='cursor-pointer text-white w-52 bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'
+                        onClick={handleDelete}
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
               <div>

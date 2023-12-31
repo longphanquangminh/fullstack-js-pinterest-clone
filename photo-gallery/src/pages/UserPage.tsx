@@ -76,7 +76,9 @@ export default function UserPage() {
           <div className='space-y-6'>
             <p className='font-bold'>Saved by user: </p>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-              {picturesSavedByUser.length === 0 ? "No data" : picturesSavedByUser.map((item: any, index: number) => <StandardImage item={item} />)}
+              {picturesSavedByUser.length === 0
+                ? "No data"
+                : picturesSavedByUser.map((item: any, index: number) => <StandardImage item={item.hinh} />)}
             </div>
             <div></div>
           </div>

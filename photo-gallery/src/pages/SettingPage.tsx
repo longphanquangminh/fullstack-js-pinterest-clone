@@ -46,10 +46,11 @@ export default function SettingPage() {
         {user && user.token ? (
           <div className='mx-auto w-[95%] py-6 space-y-6'>
             <div className='flex justify-center items-center'>
-              <Avatar
+              <img
                 className='mx-auto w-48 h-48 object-cover rounded-full'
                 src={user && user?.anhDaiDien !== "" ? `${API_URL_IMG}/${user?.anhDaiDien}` : DEFAULT_IMG}
                 alt=''
+                onError={(e: any) => (e.target.src = DEFAULT_IMG)}
               />
             </div>
             <p className='text-center font-bold text-2xl'>{user.hoTen ?? "User"}</p>

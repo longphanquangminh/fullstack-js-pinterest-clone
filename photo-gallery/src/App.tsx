@@ -31,6 +31,7 @@ import { useSelector } from "react-redux";
 import SettingPage from "./pages/SettingPage";
 import Profile from "./pages/Profile";
 import UserPage from "./pages/UserPage";
+import SearchPage from "./pages/SearchPage";
 
 setupIonicReact();
 
@@ -50,10 +51,10 @@ const App: React.FC = () => {
               <ImageDetail />
             </Route>
             <Route exact path='/login'>
-              {user ? <Redirect to='/settings' /> : <LoginPage />}
+              {user ? <Redirect to='/' /> : <LoginPage />}
             </Route>
             <Route exact path='/register'>
-              {user ? <Redirect to='/settings' /> : <RegisterPage />}
+              {user ? <Redirect to='/' /> : <RegisterPage />}
             </Route>
             <Route exact path='/post'>
               <PostPage />
@@ -66,6 +67,9 @@ const App: React.FC = () => {
             </Route>
             <Route exact path='/users/:userId'>
               <UserPage />
+            </Route>
+            <Route exact path='/search/:search'>
+              <SearchPage />
             </Route>
             <Route exact path='/'>
               <Redirect to='/home' />
