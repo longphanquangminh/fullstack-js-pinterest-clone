@@ -46,7 +46,7 @@ export default function PostPage() {
     <IonPage>
       <IonContent fullscreen>
         {user && user.token ? (
-          <div>
+          <div className='py-6'>
             <div className='flex justify-center items-center'>
               <input
                 type='file'

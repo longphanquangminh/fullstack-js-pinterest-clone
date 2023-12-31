@@ -25,7 +25,7 @@ export default function SettingPage() {
       title: "User",
       info: "Change information, upload avatar...",
       logo: <CircleUser />,
-      onClick: () => {},
+      onClick: () => history.push(`/users/${user.nguoiDungId}`),
     },
     {
       title: "Logout",
