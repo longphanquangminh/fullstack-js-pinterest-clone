@@ -29,7 +29,7 @@ import RegisterPage from "./pages/RegisterPage";
 import PostPage from "./pages/PostPage";
 import { useSelector } from "react-redux";
 import SettingPage from "./pages/SettingPage";
-import UserPage from "./pages/UserPage";
+import Profile from "./pages/Profile";
 
 setupIonicReact();
 
@@ -60,8 +60,8 @@ const App: React.FC = () => {
             <Route exact path='/settings'>
               <SettingPage />
             </Route>
-            <Route exact path='/users/:userId'>
-              <UserPage />
+            <Route exact path='/profile'>
+              <Profile />
             </Route>
             <Route exact path='/'>
               <Redirect to='/home' />

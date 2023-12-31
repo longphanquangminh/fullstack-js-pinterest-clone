@@ -3,7 +3,7 @@ import { Avatar, List, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
-import { CircleUser, LogOut } from "lucide-react";
+import { BookUser, CircleUser, LogOut } from "lucide-react";
 import { setLogin } from "../redux/userSlice";
 
 export default function SettingPage() {
@@ -22,10 +22,16 @@ export default function SettingPage() {
 
   const data = [
     {
-      title: "User",
-      info: "Change information, upload avatar...",
+      title: "Your feed",
+      info: "Your detail information",
       logo: <CircleUser />,
       onClick: () => history.push(`/users/${user.nguoiDungId}`),
+    },
+    {
+      title: "Profile",
+      info: "Change information, upload avatar...",
+      logo: <BookUser />,
+      onClick: () => history.push(`/profile`),
     },
     {
       title: "Logout",

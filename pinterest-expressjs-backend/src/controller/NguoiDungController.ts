@@ -94,7 +94,7 @@ export class NguoiDungController {
         .set(updateFields)
         .where("nguoi_dung_id = :nguoi_dung_id", { nguoi_dung_id: accessToken.data.nguoiDungId })
         .execute();
-      responseData(response, "Cập nhật thông tin thành công", "", 200);
+      responseData(response, "Update info successfully!", "", 200);
     } catch {
       responseData(response, "Error ...", "", 500);
     }
@@ -155,7 +155,7 @@ export class NguoiDungController {
         .set(updateFields)
         .where("nguoi_dung_id = :nguoi_dung_id", { nguoi_dung_id: accessToken.data.nguoiDungId })
         .execute();
-      responseData(response, "Cập nhật thông tin thành công", "", 200);
+      responseData(response, "Update avatar successfully!", updateFields, 200);
     } catch {
       responseData(response, "Error ...", "", 500);
     }
