@@ -80,18 +80,22 @@ We hope you have a wonderful time using Picturest!
 
 ### Development Tools
 
-- VSCode
+- VSCode (Linux CuteFish OS)
 - SQL Developer
 - Postman
+- Swagger
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/longphanquangminh/picturest.git`
-2. Navigate to the project directory: `cd picturest`
-3. Install dependencies: `npm install`
-4. Run `npm start` to start the application.
+1. Clone the repository: `git clone https://github.com/longphanquangminh/fullstack-js-pinterest-clone.git`
+2. Navigate to the project directory: `cd pinterest-expressjs-backend`
+3. Install dependencies: `bun install` (remember to globally install the latest version of bun)
+4. Run `bun start:dev` to start the BE application.
+5. Then navigate to another monorepo: `cd photo-gallery`
+6. Run `npm start` to start the application.
+7. Run `ionic serve` to start the FE application (remember to globally install ionic CLI first).
 
-## Configuration
+<!-- ## Configuration
 
 1. Create a `.env` file in the root directory.
 2. Add the following environment variables:
@@ -99,14 +103,14 @@ We hope you have a wonderful time using Picturest!
    ```env
    VITE_TOKEN_CYBERSOFT=your_cybersoft_course_token_(not_expired)
    VITE_MAP_API_KEY=your_basic_map_api_key_(contact_us_if_needed)
-   ```
+   ``` -->
 
 ## Useful Links
 
 🌟 Figma: [HERE](<https://www.figma.com/file/dpyHJIJI8KRcLngmLDDibm/Capstone-express-ORM-(pinterest)?type=design&node-id=3-38&mode=design&t=UXODNVH5ZlNUynit-0>)
 
-🌟 Youtube preview: https://youtu.be/3BGVBrY6QCg?si=KXtkh0dYe0sQzOWE
+🌟 Youtube preview: https://youtu.be/9YmmMo475dU
 
 ---
 
-This project is developed and contributed by [Long Phan](https://github.com/longphanquangminh)
+This project is mainly developed and contributed by [Long Phan](https://github.com/longphanquangminh)
