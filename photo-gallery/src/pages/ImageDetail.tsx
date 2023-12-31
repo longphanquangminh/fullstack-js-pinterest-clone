@@ -11,9 +11,10 @@ import { hinhAnh } from "../api/generated/picturest";
 import StandardImage from "../components/StandardImage";
 import TextArea from "antd/es/input/TextArea";
 import { https } from "../api/config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ArrowLeftCircle } from "lucide-react";
 import ButtonGroup from "antd/es/button/button-group";
+import { setSaved, setUploaded } from "../redux/userSlice";
 
 interface RouteParams {
   pictureId: string;
@@ -53,11 +54,12 @@ export default function ImageDetail() {
   const [antdImgErr, setAntdImgErr] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [localSaved, setLocalSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useSelector((state: any) => {
+  const { user, uploaded, saved } = useSelector((state: any) => {
     return state.userSlice;
   });
+  const dispatch = useDispatch();
 
   const handleDelete = () => {
     if (!user) {
@@ -66,6 +68,7 @@ export default function ImageDetail() {
       https
         .delete(`/pictures/${pictureId}`)
         .then(() => {
+          dispatch(setUploaded(!uploaded));
           message.success("You've successfully deleted this picture!");
           history.push("/");
         })
@@ -83,12 +86,13 @@ export default function ImageDetail() {
       https
         .post(`/saved/${pictureId}`)
         .then(() => {
-          if (!saved) {
+          if (!localSaved) {
             message.success("You've successfully saved this picture!");
           } else {
             message.success("You've successfully remove this picture from save collection!");
           }
-          setSaved(!saved);
+          dispatch(setSaved(!saved));
+          setLocalSaved(!localSaved);
         })
         .catch(err => {
           console.log(err);
@@ -160,10 +164,10 @@ export default function ImageDetail() {
   useEffect(() => {
     if (user) {
       https.get(`/saved/${pictureId}`).then(res => {
-        setSaved(res.data.content.saved);
+        setLocalSaved(res.data.content.saved);
       });
     } else {
-      setSaved(false);
+      setLocalSaved(false);
     }
   }, [user]);
 
@@ -204,7 +208,7 @@ export default function ImageDetail() {
                       className='cursor-pointer text-white w-52 bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'
                       onClick={handleSavePicture}
                     >
-                      {saved ? "Remove save" : "Save"}
+                      {localSaved ? "Remove save" : "Save"}
                     </button>
                   </div>
                   <div>

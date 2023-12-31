@@ -4,21 +4,27 @@ import { useParams } from "react-router";
 import { https } from "../api/config";
 import { API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
 import StandardImage from "../components/StandardImage";
+import { useSelector } from "react-redux";
 
 export default function UserPage() {
   const { userId } = useParams<any>();
   const [userData, setUserData] = useState<any>(null);
   const [picturesCreatedByUser, setPicturesCreatedByUser] = useState<any>([]);
   const [picturesSavedByUser, setPicturesSavedByUser] = useState<any>([]);
+  const { uploaded, saved } = useSelector((state: any) => {
+    return state.userSlice;
+  });
   useEffect(() => {
     https
-      .get(`/users/${userId}`)
+      .get(`/saved-by-user/${userId}`)
       .then((res: any) => {
-        setUserData(res.data.content);
+        setPicturesSavedByUser(res.data.content);
       })
       .catch((err: any) => {
         console.error(err);
       });
+  }, [saved]);
+  useEffect(() => {
     https
       .get(`/created-by-user/${userId}`)
       .then((res: any) => {
@@ -27,10 +33,12 @@ export default function UserPage() {
       .catch((err: any) => {
         console.error(err);
       });
+  }, [uploaded]);
+  useEffect(() => {
     https
-      .get(`/saved-by-user/${userId}`)
+      .get(`/users/${userId}`)
       .then((res: any) => {
-        setPicturesSavedByUser(res.data.content);
+        setUserData(res.data.content);
       })
       .catch((err: any) => {
         console.error(err);

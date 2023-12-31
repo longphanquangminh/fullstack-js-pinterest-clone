@@ -4,6 +4,7 @@ import { userLocalStorage } from "../api/localService";
 const initialState = {
   user: userLocalStorage.get(),
   uploaded: false,
+  saved: false,
 };
 
 const userSlice = createSlice({
@@ -16,8 +17,11 @@ const userSlice = createSlice({
     setUploaded: (state, action) => {
       state.uploaded = action.payload;
     },
+    setSaved: (state, action) => {
+      state.saved = action.payload;
+    },
   },
 });
 
-export const { setLogin, setUploaded } = userSlice.actions;
+export const { setLogin, setUploaded, setSaved } = userSlice.actions;
 export default userSlice.reducer;
