@@ -97,7 +97,7 @@ export class LuuAnhController {
         .getMany();
 
       if (savedPictures.length === 0) {
-        responseData(response, "User does not have any pictures!", "", 400);
+        responseData(response, "User does not have any saved pictures!", [], 400);
         return;
       }
       responseData(response, "Success", savedPictures, 200);
