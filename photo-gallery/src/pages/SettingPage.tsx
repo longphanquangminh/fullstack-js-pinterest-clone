@@ -29,7 +29,7 @@ export default function SettingPage() {
     },
     {
       title: "Profile",
-      info: "Change information, upload avatar...",
+      info: "Edit information, upload avatar, change password...",
       logo: <BookUser />,
       onClick: () => history.push(`/profile`),
     },

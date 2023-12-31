@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { https } from "../api/config";
 import axios from "axios";
-import { API_URL, DEFAULT_IMG } from "../constants/variables";
+import { API_URL, API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
 import { setLogin } from "../redux/userSlice";
 import { userLocalStorage } from "../api/localService";
 
@@ -60,8 +60,10 @@ export default function Profile() {
       })
       .then(() => {
         message.success("Update info successfully!");
-        history.push("/");
-        dispatch(setLogin({ ...user, hoTen: values.hoTen, email: values.email }));
+        history.goBack();
+        const data = { ...user, hoTen: values.hoTen, email: values.email };
+        dispatch(setLogin(data));
+        userLocalStorage.set(data);
       })
       .catch(err => {
         console.error(err);
@@ -89,9 +91,9 @@ export default function Profile() {
   const handleOk = () => {
     setIsModalOpen(false);
     const formData = new FormData();
-    formData.append("formFile", original);
+    formData.append("file", original);
     https
-      .post("/users/upload-avatar", formData, {
+      .post(`/users/avatar/${user.nguoiDungId}`, formData, {
         headers: { token: user.token },
       })
       .then(res => {
@@ -101,16 +103,20 @@ export default function Profile() {
         dispatch(setLogin({ ...user, anhDaiDien: res.data.content.anhDaiDien }));
         userLocalStorage.set({ ...user, anhDaiDien: res.data.content.anhDaiDien });
       })
-      .catch(err => {
-        message.error(err.response.data.content.replace(/^\w/, (c: any) => c.toUpperCase()));
+      .catch((err: any) => {
+        message.error("Error");
+        console.log(err);
         handleCancel();
       });
+  };
+  const showModal = () => {
+    setIsModalOpen(true);
   };
   return (
     <IonPage>
       <IonContent fullscreen>
         {isModalOpen && (
-          <Modal title='Cập nhật ảnh đại diện' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <Modal title='Update avatar' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <div className='space-y-6'>
               <input
                 type='file'
@@ -119,11 +125,18 @@ export default function Profile() {
                   setFile(URL.createObjectURL(e.target.files[0]));
                 }}
               />
-              <img className='mx-auto w-24 h-24 object-cover rounded-full' src={file} onError={onImageError} />
+              <img
+                className='mx-auto w-24 h-24 object-cover rounded-full'
+                src={file === "" ? `${API_URL_IMG}/${user.anhDaiDien}` : file}
+                onError={onImageError}
+              />
             </div>
           </Modal>
         )}
-        <div className='w-[95%] mx-auto py-6'>
+        <div className='w-[95%] mx-auto py-6 space-y-6'>
+          <button className='mx-auto w-auto underline font-bold text-sm' onClick={showModal}>
+            Update avatar
+          </button>
           <Form form={form} layout='vertical' onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
               <Form.Item
