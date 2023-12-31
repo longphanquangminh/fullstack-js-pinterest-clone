@@ -109,7 +109,7 @@ We hope you have a wonderful time using Picturest!
 
 🌟 Figma: [HERE](<https://www.figma.com/file/dpyHJIJI8KRcLngmLDDibm/Capstone-express-ORM-(pinterest)?type=design&node-id=3-38&mode=design&t=UXODNVH5ZlNUynit-0>)
 
-🌟 Youtube preview: https://youtu.be/9YmmMo475dU
+🌟 Youtube preview: https://youtu.be/cnerwftjnmM
 
 ---
 
