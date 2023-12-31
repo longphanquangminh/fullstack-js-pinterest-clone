@@ -12,34 +12,13 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "email",
-							"value": "long@gmail.testdemocc",
-							"type": "text"
-						},
-						{
-							"key": "matKhau",
-							"value": "123456",
-							"type": "text"
-						},
-						{
-							"key": "hoTen",
-							"value": "Idol Dev",
-							"type": "text"
-						},
-						{
-							"key": "tuoi",
-							"value": "18",
-							"type": "text"
-						},
-						{
-							"key": "file",
-							"type": "file",
-							"src": "/home/long/Downloads/1686560723046.jpeg"
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"longpro@gmxcxailc.ccm\",\n    \"hoTen\": \"The Undertaker\",\n    \"tuoi\": 25,\n    \"matKhau\": \"matKhauBiMat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
 				"url": {
 					"raw": "localhost:8080/register",
@@ -140,18 +119,30 @@
 		},
 		{
 			"name": "localhost:8080/comments/19",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "localhost:8080/comments/19",
+					"raw": "localhost:8080/comments/211",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"comments",
-						"19"
+						"211"
 					]
 				}
 			},
@@ -218,9 +209,21 @@
 		},
 		{
 			"name": "localhost:8080/users/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8080/users/1",
 					"host": [
@@ -237,9 +240,21 @@
 		},
 		{
 			"name": "localhost:8080/saved-by-user/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "localhost:8080/saved-by-user/1",
 					"host": [
@@ -285,14 +300,14 @@
 					}
 				],
 				"url": {
-					"raw": "localhost:8080/pictures/178",
+					"raw": "localhost:8080/pictures/219",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"pictures",
-						"178"
+						"219"
 					]
 				}
 			},
@@ -310,19 +325,13 @@
 					}
 				],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "hoTen",
-							"value": "John Wick Cena",
-							"type": "text"
-						},
-						{
-							"key": "file",
-							"type": "file",
-							"src": "/home/long/Downloads/411932666_1076020943648867_987494494395559660_n.jpg"
+					"mode": "raw",
+					"raw": "{\n    \"hoTen\": \"John Ruby\",\n    \"tuoi\": 50,\n    \"email\": \"a@g.cc\",\n    \"matKhau\": \"123456\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
 				"url": {
 					"raw": "localhost:8080/users/1",
@@ -355,7 +364,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/home/long/Downloads/411932666_1076020943648867_987494494395559660_n.jpg"
+							"src": "/home/long/Downloads/chu-de-loi-nhan-nho-nguoi-nuoi-cun-con-8.jpg"
 						},
 						{
 							"key": "moTa",
@@ -402,6 +411,42 @@
 					"path": [
 						"saved",
 						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/users/avatar/1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5ndW9pRHVuZ0lkIjoxLCJrZXkiOjE3MDM5NDc0OTE4NzJ9LCJpYXQiOjE3MDM5NDc0OTF9.-BpNrwAKPUrAoAYQNWexApMnfDmUN2dktyoCaxagpns",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/long/Downloads/chu-de-loi-nhan-nho-nguoi-nuoi-cun-con-8.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/users/avatar/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"avatar",
+						"1"
 					]
 				}
 			},

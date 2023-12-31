@@ -75,7 +75,7 @@ export class AuthController {
         email,
       });
       await this.nguoiDungRepository.save(user);
-      responseData(response, "Đăng ký thành công", "", 200);
+      responseData(response, "Register successfully!", "", 200);
     } catch {
       responseData(response, "Error ...", "", 500);
     }

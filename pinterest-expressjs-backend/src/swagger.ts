@@ -10,13 +10,23 @@ export default {
     "/register": {
       post: {
         summary: "Register a new user",
-        consumes: ["multipart/form-data"],
+        consumes: ["application/json"],
         parameters: [
-          { name: "email", in: "formData", type: "string" },
-          { name: "matKhau", in: "formData", type: "string" },
-          { name: "hoTen", in: "formData", type: "string" },
-          { name: "tuoi", in: "formData", type: "string" },
-          { name: "file", in: "formData", type: "file" },
+          {
+            name: "body",
+            in: "body",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                email: { type: "string" },
+                hoTen: { type: "string" },
+                tuoi: { type: "number" },
+                matKhau: { type: "string" },
+              },
+              required: ["email", "hoTen", "tuoi", "matKhau"],
+            },
+          },
         ],
         responses: {},
       },
@@ -25,7 +35,21 @@ export default {
       post: {
         summary: "User login",
         consumes: ["application/json"],
-        parameters: [{ name: "body", in: "body", schema: { type: "object" } }],
+        parameters: [
+          {
+            name: "body",
+            in: "body",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                email: { type: "string" },
+                matKhau: { type: "string" },
+              },
+              required: ["email", "matKhau"],
+            },
+          },
+        ],
         responses: {},
       },
     },
@@ -35,9 +59,10 @@ export default {
         responses: {},
       },
       post: {
-        summary: "Upload a new picture",
+        summary: "Upload a picture",
         consumes: ["multipart/form-data"],
         parameters: [
+          { name: "token", in: "header", type: "string" },
           { name: "file", in: "formData", type: "file" },
           { name: "moTa", in: "formData", type: "string" },
           { name: "tenHinh", in: "formData", type: "string" },
@@ -79,7 +104,11 @@ export default {
         parameters: [
           { name: "id", in: "path", type: "integer" },
           { name: "token", in: "header", type: "string" },
-          { name: "body", in: "body", schema: { type: "object" } },
+          {
+            name: "body",
+            in: "body",
+            schema: { type: "object" },
+          },
         ],
         responses: {},
       },
@@ -110,12 +139,25 @@ export default {
       },
       put: {
         summary: "Update user information",
-        consumes: ["multipart/form-data"],
+        consumes: ["application/json"],
         parameters: [
-          { name: "id", in: "path", type: "integer" },
-          { name: "token", in: "header", type: "string" },
-          { name: "hoTen", in: "formData", type: "string" },
-          { name: "file", in: "formData", type: "file" },
+          { name: "token", in: "header", type: "string", required: true },
+
+          {
+            name: "body",
+            in: "body",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                email: { type: "string" },
+                hoTen: { type: "string" },
+                tuoi: { type: "number" },
+                matKhau: { type: "string" },
+              },
+              required: ["email", "hoTen", "tuoi", "matKhau"],
+            },
+          },
         ],
         responses: {},
       },
@@ -131,6 +173,18 @@ export default {
       get: {
         summary: "Get pictures created by user ID",
         parameters: [{ name: "id", in: "path", type: "integer" }],
+        responses: {},
+      },
+    },
+    "/users/avatar/{id}": {
+      post: {
+        summary: "Upload user avatar",
+        consumes: ["multipart/form-data"],
+        parameters: [
+          { name: "id", in: "path", type: "integer" },
+          { name: "token", in: "header", type: "string" },
+          { name: "file", in: "formData", type: "file" },
+        ],
         responses: {},
       },
     },

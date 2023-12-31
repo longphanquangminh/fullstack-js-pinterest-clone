@@ -175,7 +175,7 @@ export class NguoiDungController {
       }
       responseData(
         response,
-        "Thành công",
+        "Success!",
         {
           nguoiDungId: user.nguoiDungId,
           anhDaiDien: user.anhDaiDien,
