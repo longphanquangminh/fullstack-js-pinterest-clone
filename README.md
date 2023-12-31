@@ -89,10 +89,10 @@ We hope you have a wonderful time using Picturest!
 
 1. Clone the repository: `git clone https://github.com/longphanquangminh/fullstack-js-pinterest-clone.git`
 2. Navigate to the project directory: `cd pinterest-expressjs-backend`
-3. Install dependencies: `bun install` (remember to globally install the latest version of bun)
+3. Install BE dependencies: `bun install` (remember to globally install the latest version of bun)
 4. Run `bun start:dev` to start the BE application.
 5. Then navigate to another monorepo: `cd photo-gallery`
-6. Run `npm start` to start the application.
+6. Run `npm install` to install the FE dependencies.
 7. Run `ionic serve` to start the FE application (remember to globally install ionic CLI first).
 
 <!-- ## Configuration
