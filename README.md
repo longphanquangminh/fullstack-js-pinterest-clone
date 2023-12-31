@@ -19,7 +19,7 @@ Picturest is a project inspired by Pinterest, designed to facilitate the sharing
 
 Welcome to Picturest! Follow these simple steps to explore and share amazing images:
 
-### 1. Visit Our Website
+<!-- ### 1. Visit Our Website
 
 Navigate to our website at [HERE](https://your-picturest-website-url).
 
@@ -36,6 +36,22 @@ To save images or post your own, sign up for an account. Click on "Sign Up" and 
 Once logged in, click on "Post" icon to share your favorite pictures with the community.
 
 ### 5. Discover and Interact
+
+Explore, save, and comment on pictures from other users. Connect with the Picturest community. -->
+
+### 1. Explore Images
+
+Browse through a wide variety of images. Click on an image to view more details.
+
+### 2. Sign Up
+
+To save images or post your own, sign up for an account. Click on "Sign Up" and follow the registration process.
+
+### 3. Share Your Pictures
+
+Once logged in, click on "Post" icon to share your favorite pictures with the community.
+
+### 4. Discover and Interact
 
 Explore, save, and comment on pictures from other users. Connect with the Picturest community.
 
