@@ -83,7 +83,7 @@ We hope you have a wonderful time using Picturest!
 - Redux
 <!-- - Orval -->
 - Vite
-<!-- - TinyMCE (experiment) -->
+- TinyMCE (experiment)
 - Figma
 - Canva (design logo)
 - Adobe Photoshop
