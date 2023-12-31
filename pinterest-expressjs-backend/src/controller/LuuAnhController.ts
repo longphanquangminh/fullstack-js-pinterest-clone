@@ -10,6 +10,67 @@ export class LuuAnhController {
   private hinhAnhRepository = AppDataSource.getRepository(HinhAnh);
   private nguoiDungRepository = AppDataSource.getRepository(NguoiDung);
 
+  async postSave(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { pictureId } = request.params;
+
+      const picture = await this.hinhAnhRepository.findOne({
+        where: { hinhId: +pictureId },
+      });
+
+      if (!picture) {
+        responseData(response, "Can't find image!", "", 400);
+        return;
+      }
+
+      const { token } = request.headers;
+
+      if (!token || token == "" || token == null || token == undefined) {
+        responseData(response, "Don't have token!", "", 400);
+        return;
+      }
+
+      const accessToken = decodeToken(token);
+
+      const user = await this.nguoiDungRepository.findOne({
+        where: { nguoiDungId: accessToken.data.nguoiDungId },
+      });
+
+      if (!user) {
+        responseData(response, "Token is not valid!", "", 401);
+        return;
+      }
+
+      const checkPicture = await this.luuAnhRepository
+        .createQueryBuilder("luuAnh")
+        .where({
+          hinh: {
+            hinhId: pictureId,
+          },
+          nguoiDung: {
+            nguoiDungId: accessToken.data.nguoiDungId,
+          },
+        })
+        .getOne();
+
+      if (!checkPicture) {
+        const userSavePic = Object.assign(new LuuAnh(), {
+          ngayLuu: new Date(),
+          hinh: picture,
+          nguoiDung: user,
+        });
+
+        await this.luuAnhRepository.save(userSavePic);
+        responseData(response, "Saved image!", "", 200);
+        return;
+      }
+      await this.luuAnhRepository.remove(checkPicture);
+      responseData(response, "Remove image from save collection!", "", 200);
+    } catch {
+      responseData(response, "Error ...", "", 500);
+    }
+  }
+
   async getSavedPicturesByUser(request: Request, response: Response, next: NextFunction) {
     try {
       const userId = request.params.userId;
@@ -19,7 +80,7 @@ export class LuuAnhController {
       });
 
       if (!user) {
-        responseData(response, "Người dùng không tồn tại!", "", 400);
+        responseData(response, "User does not exist!", "", 400);
         return;
       }
 
@@ -36,12 +97,12 @@ export class LuuAnhController {
         .getMany();
 
       if (savedPictures.length === 0) {
-        responseData(response, "Người dùng chưa lưu ảnh nào!", "", 400);
+        responseData(response, "User does not have any saved pictures!", [], 400);
         return;
       }
-      responseData(response, "Thành công", savedPictures, 200);
+      responseData(response, "Success", savedPictures, 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -54,14 +115,14 @@ export class LuuAnhController {
       });
 
       if (!picture) {
-        responseData(response, "Không tìm thấy hình ảnh!", "", 400);
+        responseData(response, "Can't find image!", "", 400);
         return;
       }
 
       const { token } = request.headers;
 
       if (!token || token == "" || token == null || token == undefined) {
-        responseData(response, "Chưa truyền token!", "", 400);
+        responseData(response, "Don't have token!", "", 400);
         return;
       }
 
@@ -72,7 +133,7 @@ export class LuuAnhController {
       });
 
       if (!user) {
-        responseData(response, "Token không hợp lệ!", "", 401);
+        responseData(response, "Token is not valid!", "", 401);
         return;
       }
 
@@ -108,7 +169,7 @@ export class LuuAnhController {
         200,
       );
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 }

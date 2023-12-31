@@ -16,7 +16,7 @@ export class HinhAnhController {
       const { token } = request.headers;
 
       if (!token || token == "" || token == null || token == undefined) {
-        responseData(response, "Chưa truyền token!", "", 400);
+        responseData(response, "Don't have token!", "", 400);
         return;
       }
 
@@ -27,24 +27,24 @@ export class HinhAnhController {
       });
 
       if (!user) {
-        responseData(response, "Token không hợp lệ!", "", 401);
+        responseData(response, "Token is not valid!", "", 401);
         return;
       }
       const file = request.file;
 
       if (!file) {
         // Handle missing file
-        responseData(response, "Chưa thêm hình", "", 400);
+        responseData(response, "Missing image file!", "", 400);
         return;
       }
 
       const { moTa, tenHinh } = request.body;
       if (!moTa) {
-        responseData(response, "Chưa thêm mô tả hình", "", 400);
+        responseData(response, "Missing image description!", "", 400);
         return;
       }
       if (!tenHinh) {
-        responseData(response, "Chưa thêm tên hình", "", 400);
+        responseData(response, "Missing image name!", "", 400);
         return;
       }
       const newPicture = Object.assign(new HinhAnh(), {
@@ -58,16 +58,16 @@ export class HinhAnhController {
 
       const errors = await validate(newPicture, { validationError: { target: false } });
       if (errors.length > 0) {
-        responseData(response, "Có lỗi đầu vào!", errors, 400);
+        responseData(response, "Input error!", errors, 400);
         return;
       }
 
       await this.hinhAnhRepository.save(newPicture);
 
-      responseData(response, "Thêm hình thành công", "", 200);
+      responseData(response, "Add image successfully!", "", 200);
       return;
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -83,13 +83,13 @@ export class HinhAnhController {
         },
       });
       if (!picture) {
-        responseData(response, "Không tìm thấy hình ảnh để xóa!", "", 400);
+        responseData(response, "Can't find image to delete!", "", 400);
         return;
       }
       const { token } = request.headers;
 
       if (!token || token == "" || token == null || token == undefined) {
-        responseData(response, "Chưa truyền token!", "", 400);
+        responseData(response, "Don't have token!", "", 400);
         return;
       }
 
@@ -100,14 +100,14 @@ export class HinhAnhController {
       });
 
       if (!user || accessToken.data.nguoiDungId !== picture.nguoiDung.nguoiDungId) {
-        responseData(response, "Token không hợp lệ!", "", 401);
+        responseData(response, "Token is not valid!", "", 401);
         return;
       }
 
       await this.hinhAnhRepository.remove(picture);
-      responseData(response, "Xóa thành công", "", 200);
+      responseData(response, "Delete successfully!", "", 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -120,7 +120,7 @@ export class HinhAnhController {
       });
 
       if (!user) {
-        responseData(response, "Người dùng không tồn tại!", "", 400);
+        responseData(response, "User does not exist!", "", 400);
         return;
       }
 
@@ -136,12 +136,12 @@ export class HinhAnhController {
         .getMany();
 
       if (createdPictures.length === 0) {
-        responseData(response, "Người dùng chưa tạo ảnh nào!", "", 400);
+        responseData(response, "User does not have any created pictures!", [], 400);
         return;
       }
-      responseData(response, "Thành công", createdPictures, 200);
+      responseData(response, "Success", createdPictures, 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -149,13 +149,14 @@ export class HinhAnhController {
     try {
       const data = await this.hinhAnhRepository
         .createQueryBuilder("hinh_anh")
+        .orderBy("hinh_anh.hinhId", "DESC")
         .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
         .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .getMany();
       const count = await this.hinhAnhRepository.count();
-      responseData(response, "Thành công", { count, data }, 200);
+      responseData(response, "Success", { count, data }, 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -165,18 +166,19 @@ export class HinhAnhController {
 
       const [data, count] = await this.hinhAnhRepository
         .createQueryBuilder("hinh_anh")
+        .orderBy("hinh_anh.hinhId", "DESC")
         .where("LOWER(ten_hinh) LIKE LOWER(:ten_hinh)", { ten_hinh: `%${pictureName.toLowerCase()}%` })
         .leftJoinAndSelect("hinh_anh.nguoiDung", "nguoiDung")
         .select(["hinh_anh", "nguoiDung.nguoiDungId", "nguoiDung.hoTen", "nguoiDung.anhDaiDien", "nguoiDung.tuoi", "nguoiDung.email"])
         .getManyAndCount();
 
       if (data.length === 0) {
-        responseData(response, "Không tìm thấy hình ảnh nào!", "", 400);
+        responseData(response, "Can't find image!", "", 400);
         return;
       }
-      responseData(response, "Thành công", { count, data }, 200);
+      responseData(response, "Success", { count, data }, 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 
@@ -192,15 +194,15 @@ export class HinhAnhController {
           nguoiDung: true,
         },
       });
-      delete picture.nguoiDung.matKhau;
 
       if (!picture) {
-        responseData(response, "Không tìm thấy hình ảnh!", "", 400);
+        responseData(response, "Can't find image!", "", 400);
         return;
       }
-      responseData(response, "Thành công", picture, 200);
+      delete picture.nguoiDung.matKhau;
+      responseData(response, "Success", picture, 200);
     } catch {
-      responseData(response, "Lỗi ...", "", 500);
+      responseData(response, "Error ...", "", 500);
     }
   }
 }
