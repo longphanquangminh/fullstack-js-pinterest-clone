@@ -1,10 +1,12 @@
 import { IonContent, IonPage } from "@ionic/react";
-import { Avatar, List, message } from "antd";
+import { Avatar, List, Modal, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
-import { BookUser, CircleUser, LogOut } from "lucide-react";
+import { Archive, BookUser, CircleUser, LogOut } from "lucide-react";
 import { setLogin } from "../redux/userSlice";
+import { useRef, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 
 export default function SettingPage() {
   const { user } = useSelector((state: any) => {
@@ -12,6 +14,16 @@ export default function SettingPage() {
   });
   const history = useHistory();
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -34,15 +46,71 @@ export default function SettingPage() {
       onClick: () => history.push(`/profile`),
     },
     {
+      title: "Contribution",
+      info: "Send ideas to Picturest",
+      logo: <Archive />,
+      onClick: () => showModal(),
+    },
+
+    {
       title: "Logout",
       info: "Exit account",
       logo: <LogOut />,
       onClick: logout,
     },
   ];
+  const editorRef = useRef(null);
+  const log = (editorRef: any) => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
   return (
     <IonPage>
       <IonContent fullscreen>
+        {isModalOpen && (
+          <Modal title='Contribution' open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <div className='space-y-6'>
+              <>
+                <Editor
+                  apiKey='yj0g9clfg2pxo1f5xv6jrjvou0u2xj3lhi3uu4c2nl2sgya7'
+                  onInit={(evt, editor) => {}}
+                  initialValue='<p>This is the initial content of the editor.</p>'
+                  init={{
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                      "advlist",
+                      "autolink",
+                      "lists",
+                      "link",
+                      "image",
+                      "charmap",
+                      "preview",
+                      "anchor",
+                      "searchreplace",
+                      "visualblocks",
+                      "code",
+                      "fullscreen",
+                      "insertdatetime",
+                      "media",
+                      "table",
+                      "code",
+                      "help",
+                      "wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "bold italic forecolor | alignleft aligncenter " +
+                      "alignright alignjustify | bullist numlist outdent indent | " +
+                      "removeformat | help",
+                    content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                  }}
+                />
+              </>
+            </div>
+          </Modal>
+        )}
         {user && user.token ? (
           <div className='mx-auto w-[95%] py-6 space-y-6'>
             <div className='flex justify-center items-center'>
