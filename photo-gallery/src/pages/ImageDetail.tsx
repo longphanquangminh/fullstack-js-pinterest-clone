@@ -1,9 +1,9 @@
 import { Comment } from "@ant-design/compatible";
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import { useHistory, useParams } from "react-router";
 import Header from "../components/Header";
 import axios from "axios";
-import { API_URL, API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
+import { API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
 import { useEffect, useState } from "react";
 import { Avatar, Button, Form, Image, Rate, message } from "antd";
 import { Link } from "react-router-dom";
@@ -13,6 +13,7 @@ import TextArea from "antd/es/input/TextArea";
 import { https } from "../api/config";
 import { useSelector } from "react-redux";
 import { ArrowLeftCircle } from "lucide-react";
+import ButtonGroup from "antd/es/button/button-group";
 
 interface RouteParams {
   pictureId: string;
@@ -52,10 +53,32 @@ export default function ImageDetail() {
   const [antdImgErr, setAntdImgErr] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState("");
+  const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { user } = useSelector((state: any) => {
     return state.userSlice;
   });
+
+  const handleSavePicture = () => {
+    if (!user) {
+      message.error("Please login first!");
+    } else {
+      https
+        .post(`/saved/${pictureId}`)
+        .then(() => {
+          if (!saved) {
+            message.success("You've successfully saved this picture!");
+          } else {
+            message.success("You've successfully remove this picture from save collection!");
+          }
+          setSaved(!saved);
+        })
+        .catch(err => {
+          console.log(err);
+          message.error(err.response.data.content.replace(/^\w/, (c: any) => c.toUpperCase()));
+        });
+    }
+  };
 
   const handleChange = (e: any) => {
     setValue(e.target.value);
@@ -104,19 +127,28 @@ export default function ImageDetail() {
   };
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`${API_URL}/pictures/${pictureId}`)
+    https
+      .get(`/pictures/${pictureId}`)
       .then(res => setData(res.data.content))
       .catch(err => console.log(err))
       .finally(() => setLoading(false));
-    axios
-      .get(`${import.meta.env.VITE_BASE_BACKEND_URL}/pictures`)
+    https
+      .get(`/pictures`)
       .then(res => {
         setPictures(res.data.content.data);
       })
       .catch(err => console.log(err));
     fetchCommentData();
   }, []);
+  useEffect(() => {
+    if (user) {
+      https.get(`/saved/${pictureId}`).then(res => {
+        setSaved(res.data.content.saved);
+      });
+    } else {
+      setSaved(false);
+    }
+  }, [user]);
 
   const history = useHistory();
 
@@ -149,6 +181,13 @@ export default function ImageDetail() {
                   </div>
                   <h1 className='text-3xl font-bold text-black'>{data.tenHinh}</h1>
                   <p className='text-justify'>{data.moTa}</p>
+                  <button
+                    type='button'
+                    className='cursor-pointer text-white w-52 bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'
+                    onClick={handleSavePicture}
+                  >
+                    {saved ? "Remove save" : "Save"}
+                  </button>
                 </div>
               </div>
               <div>
@@ -156,9 +195,9 @@ export default function ImageDetail() {
                 {!comments || comments === "" || comments.length === 0 ? (
                   <p>No comments yet!</p>
                 ) : (
-                  <div className='space-y-3 max-h-72 overflow-auto overscroll-auto'>
+                  <div className='space-y-6 max-h-72 overflow-auto overscroll-auto'>
                     {comments.map((item: any, index: number) => (
-                      <div key={index}>
+                      <div key={index} className='space-y-3'>
                         <div className='flex items-center justify-start gap-3'>
                           <Link to={`/users/${data.nguoiDung?.nguoiDungId}`}>
                             <img alt='' className='w-9 h-9 rounded-3xl' src={`${API_URL_IMG}/${data.nguoiDung?.anhDaiDien}`} onError={onImageError} />

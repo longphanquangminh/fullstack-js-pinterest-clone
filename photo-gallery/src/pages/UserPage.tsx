@@ -2,7 +2,8 @@ import { IonContent, IonPage } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { https } from "../api/config";
-import { API_URL_IMG } from "../constants/variables";
+import { API_URL_IMG, DEFAULT_IMG } from "../constants/variables";
+import StandardImage from "../components/StandardImage";
 
 export default function UserPage() {
   const { userId } = useParams<any>();
@@ -41,7 +42,13 @@ export default function UserPage() {
         <div className='w-[95%] mx-auto py-6 space-y-6'>
           <div className='flex justify-start items-center gap-6'>
             <div>
-              <img className='h-52 mx-auto object-cover rounded-3xl w-full' alt='' src={`${API_URL_IMG}/${userData?.anhDaiDien}`} />
+              <img
+                className='h-52 mx-auto object-cover rounded-3xl w-full'
+                alt=''
+                src={`${API_URL_IMG}/${userData?.anhDaiDien}`}
+                loading='lazy'
+                onError={(e: any) => (e.target.src = DEFAULT_IMG)}
+              />
             </div>
             <div className='space-y-3'>
               <p>
@@ -58,12 +65,19 @@ export default function UserPage() {
               </p>
             </div>
           </div>
-          <div>
-            <p>Created by user: </p>
-            <div>{picturesCreatedByUser.length === 0}</div>
+          <div className='space-y-6'>
+            <p className='font-bold'>Created by user: </p>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+              {picturesCreatedByUser.length === 0
+                ? "No data"
+                : picturesCreatedByUser.map((item: any, index: number) => <StandardImage item={item} />)}
+            </div>
           </div>
-          <div>
-            <p>Saved by user: </p>
+          <div className='space-y-6'>
+            <p className='font-bold'>Saved by user: </p>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+              {picturesSavedByUser.length === 0 ? "No data" : picturesSavedByUser.map((item: any, index: number) => <StandardImage item={item} />)}
+            </div>
             <div></div>
           </div>
         </div>

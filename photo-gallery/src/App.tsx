@@ -50,10 +50,10 @@ const App: React.FC = () => {
               <ImageDetail />
             </Route>
             <Route exact path='/login'>
-              <LoginPage />
+              {user ? <Redirect to='/settings' /> : <LoginPage />}
             </Route>
             <Route exact path='/register'>
-              <RegisterPage />
+              {user ? <Redirect to='/settings' /> : <RegisterPage />}
             </Route>
             <Route exact path='/post'>
               <PostPage />

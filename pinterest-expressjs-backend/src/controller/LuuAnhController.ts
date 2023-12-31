@@ -61,11 +61,11 @@ export class LuuAnhController {
         });
 
         await this.luuAnhRepository.save(userSavePic);
-        responseData(response, "Đã lưu ảnh!", "", 200);
+        responseData(response, "Saved image!", "", 200);
         return;
       }
       await this.luuAnhRepository.remove(checkPicture);
-      responseData(response, "Đã bỏ lưu ảnh!", "", 200);
+      responseData(response, "Remove image from save collection!", "", 200);
     } catch {
       responseData(response, "Error ...", "", 500);
     }
