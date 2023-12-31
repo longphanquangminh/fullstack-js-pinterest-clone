@@ -152,7 +152,7 @@ export class LuuAnhController {
       if (!checkPicture) {
         responseData(
           response,
-          "Người dùng chưa lưu ảnh!",
+          "User has not saved the picture yet!",
           {
             saved: false,
           },
@@ -162,7 +162,7 @@ export class LuuAnhController {
       }
       responseData(
         response,
-        "Người dùng đã lưu ảnh!",
+        "User has saved the picture!",
         {
           saved: true,
         },

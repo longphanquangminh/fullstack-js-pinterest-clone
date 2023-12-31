@@ -62,10 +62,10 @@ export default {
         summary: "Upload a picture",
         consumes: ["multipart/form-data"],
         parameters: [
-          { name: "token", in: "header", type: "string" },
-          { name: "file", in: "formData", type: "file" },
-          { name: "moTa", in: "formData", type: "string" },
-          { name: "tenHinh", in: "formData", type: "string" },
+          { name: "token", in: "header", required: true, type: "string" },
+          { name: "file", in: "formData", required: true, type: "file" },
+          { name: "moTa", in: "formData", required: true, type: "string" },
+          { name: "tenHinh", in: "formData", required: true, type: "string" },
         ],
         responses: {},
       },
@@ -73,21 +73,21 @@ export default {
     "/pictures/search-by-name/{name}": {
       get: {
         summary: "Search pictures by name",
-        parameters: [{ name: "name", in: "path", type: "string" }],
+        parameters: [{ name: "name", in: "path", type: "string", required: true }],
         responses: {},
       },
     },
     "/pictures/{id}": {
       get: {
         summary: "Get picture by ID",
-        parameters: [{ name: "id", in: "path", type: "integer" }],
+        parameters: [{ name: "id", in: "path", type: "integer", required: true }],
         responses: {},
       },
       delete: {
         summary: "Delete picture by ID",
         parameters: [
-          { name: "id", in: "path", type: "integer" },
-          { name: "token", in: "header", type: "string" },
+          { name: "id", in: "path", required: true, type: "integer" },
+          { name: "token", in: "header", required: true, type: "string" },
         ],
         responses: {},
       },
@@ -95,19 +95,26 @@ export default {
     "/comments/{id}": {
       get: {
         summary: "Get comments for a picture",
-        parameters: [{ name: "id", in: "path", type: "integer" }],
+        parameters: [{ name: "id", in: "path", type: "integer", required: true }],
         responses: {},
       },
       post: {
         summary: "Add a comment to a picture",
         consumes: ["application/json"],
         parameters: [
-          { name: "id", in: "path", type: "integer" },
-          { name: "token", in: "header", type: "string" },
+          { name: "id", in: "path", required: true, type: "integer" },
+          { name: "token", in: "header", required: true, type: "string" },
           {
             name: "body",
             in: "body",
-            schema: { type: "object" },
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                noiDung: { type: "string" },
+              },
+              required: ["noiDung"],
+            },
           },
         ],
         responses: {},
@@ -117,16 +124,16 @@ export default {
       get: {
         summary: "Get saved pictures by user ID",
         parameters: [
-          { name: "id", in: "path", type: "integer" },
-          { name: "token", in: "header", type: "string" },
+          { name: "id", in: "path", required: true, type: "integer" },
+          { name: "token", in: "header", required: true, type: "string" },
         ],
         responses: {},
       },
       post: {
         summary: "Save a picture for a user",
         parameters: [
-          { name: "id", in: "path", type: "integer" },
-          { name: "token", in: "header", type: "string" },
+          { name: "id", in: "path", required: true, type: "integer" },
+          { name: "token", in: "header", required: true, type: "string" },
         ],
         responses: {},
       },
@@ -134,15 +141,15 @@ export default {
     "/users/{id}": {
       get: {
         summary: "Get user by ID",
-        parameters: [{ name: "id", in: "path", type: "integer" }],
+        parameters: [{ name: "id", in: "path", required: true, type: "integer" }],
         responses: {},
       },
       put: {
         summary: "Update user information",
         consumes: ["application/json"],
         parameters: [
+          { name: "id", in: "path", required: true, type: "integer" },
           { name: "token", in: "header", type: "string", required: true },
-
           {
             name: "body",
             in: "body",
@@ -165,14 +172,14 @@ export default {
     "/saved-by-user/{id}": {
       get: {
         summary: "Get pictures saved by user ID",
-        parameters: [{ name: "id", in: "path", type: "integer" }],
+        parameters: [{ name: "id", in: "path", required: true, type: "integer" }],
         responses: {},
       },
     },
     "/created-by-user/{id}": {
       get: {
         summary: "Get pictures created by user ID",
-        parameters: [{ name: "id", in: "path", type: "integer" }],
+        parameters: [{ name: "id", in: "path", required: true, type: "integer" }],
         responses: {},
       },
     },
@@ -181,9 +188,9 @@ export default {
         summary: "Upload user avatar",
         consumes: ["multipart/form-data"],
         parameters: [
-          { name: "id", in: "path", type: "integer" },
-          { name: "token", in: "header", type: "string" },
-          { name: "file", in: "formData", type: "file" },
+          { name: "id", in: "path", required: true, type: "integer" },
+          { name: "token", in: "header", required: true, type: "string" },
+          { name: "file", in: "formData", required: true, type: "file" },
         ],
         responses: {},
       },

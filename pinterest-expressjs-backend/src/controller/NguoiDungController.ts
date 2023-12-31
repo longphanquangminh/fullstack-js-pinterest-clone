@@ -65,6 +65,10 @@ export class NguoiDungController {
       }
 
       if (tuoi) {
+        if (isNaN(tuoi) || !Number.isInteger(tuoi) || tuoi < 15) {
+          responseData(response, "Age must be a integer and higher than 14!", "", 400);
+          return;
+        }
         updateFields.tuoi = tuoi;
       }
 
