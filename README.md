@@ -10,7 +10,7 @@ Picturest is a project inspired by Pinterest, designed to facilitate the sharing
 
 - User authentication (Sign up, Login, Logout)
 - Image posting and details
-- Like and comment system
+- Save and comment system
 - User profiles
 - Search functionality
 - Responsive design for various devices
