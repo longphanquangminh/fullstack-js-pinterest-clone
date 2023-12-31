@@ -23,6 +23,7 @@ export default function SettingPage() {
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    message.success("Contribute successfully!");
   };
 
   const logout = () => {
@@ -59,12 +60,6 @@ export default function SettingPage() {
       onClick: logout,
     },
   ];
-  const editorRef = useRef(null);
-  const log = (editorRef: any) => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -74,8 +69,7 @@ export default function SettingPage() {
               <>
                 <Editor
                   apiKey='yj0g9clfg2pxo1f5xv6jrjvou0u2xj3lhi3uu4c2nl2sgya7'
-                  onInit={(evt, editor) => {}}
-                  initialValue='<p>This is the initial content of the editor.</p>'
+                  initialValue=''
                   init={{
                     height: 500,
                     menubar: false,
