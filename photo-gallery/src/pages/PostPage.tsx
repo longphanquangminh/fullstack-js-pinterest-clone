@@ -83,7 +83,7 @@ export default function PostPage() {
                   <Input />
                 </Form.Item>
                 <div className='grid lg:flex justify-center items-center gap-3 mt-9'>
-                  <button className='cursor-pointer text-white w-full bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'>Login</button>
+                  <button className='cursor-pointer text-white w-full bg-pink-500 hover:bg-pink-700 duration-300 px-6 py-2 rounded-lg'>Post</button>
                 </div>
               </Form>
             </div>

@@ -194,12 +194,12 @@ export class HinhAnhController {
           nguoiDung: true,
         },
       });
-      delete picture.nguoiDung.matKhau;
 
       if (!picture) {
         responseData(response, "Can't find image!", "", 400);
         return;
       }
+      delete picture.nguoiDung.matKhau;
       responseData(response, "Success", picture, 200);
     } catch {
       responseData(response, "Error ...", "", 500);
