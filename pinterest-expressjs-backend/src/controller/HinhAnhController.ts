@@ -4,7 +4,6 @@ import { responseData } from "../config/Response";
 import { HinhAnh } from "../entity/HinhAnh";
 import { NguoiDung } from "../entity/NguoiDung";
 import { decodeToken } from "../config/jwt";
-import upload from "../config/upload";
 import { validate } from "class-validator";
 
 export class HinhAnhController {
