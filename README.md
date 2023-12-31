@@ -29,15 +29,15 @@ Browse through a wide variety of images. Click on an image to view more details.
 
 ### 3. Sign Up
 
-To like images or post your own, sign up for an account. Click on "Sign Up" and follow the registration process.
+To save images or post your own, sign up for an account. Click on "Sign Up" and follow the registration process.
 
 ### 4. Share Your Pictures
 
-Once logged in, click on "Post" to share your favorite pictures with the community.
+Once logged in, click on "Post" icon to share your favorite pictures with the community.
 
 ### 5. Discover and Interact
 
-Explore, like, and comment on pictures from other users. Connect with the Picturest community.
+Explore, save, and comment on pictures from other users. Connect with the Picturest community.
 
 ### Need Help?
 
