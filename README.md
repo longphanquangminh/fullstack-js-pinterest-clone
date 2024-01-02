@@ -81,7 +81,6 @@ We hope you have a wonderful time using Picturest!
 - Ant Design
 - WindiCSS
 - Redux
-<!-- - Orval -->
 - Vite
 - TinyMCE (experiment)
 - Figma
