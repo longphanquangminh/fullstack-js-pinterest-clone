@@ -78,6 +78,7 @@ We hope you have a wonderful time using Picturest!
 
 - Ionic
 - React
+- TypeScript TSX
 - Ant Design
 - WindiCSS
 - Redux
