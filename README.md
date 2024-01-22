@@ -74,6 +74,7 @@ We hope you have a wonderful time using Picturest!
 - Oracle
 - Docker
 - Podman (an alternative to Docker)
+- CircleCI
 
 ### Frontend & Design
 
