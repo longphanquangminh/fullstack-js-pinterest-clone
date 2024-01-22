@@ -73,6 +73,7 @@ We hope you have a wonderful time using Picturest!
 - TypeORM
 - Oracle
 - Docker
+- Podman (an alternative to Docker)
 
 ### Frontend & Design
 
