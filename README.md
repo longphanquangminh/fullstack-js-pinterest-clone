@@ -1,7 +1,7 @@
 # Picturest
 
 <p align="center">
-  <img src="https://media.discordapp.net/attachments/1026660684739653674/1189943300061397082/picturest_logo.png" alt="Picturest Logo" width="300" height="300">
+  <img src="https://media.discordapp.net/attachments/1026660684739653674/1189943300061397082/picturest_logo.png?ex=65fc490e&is=65e9d40e&hm=8f757581972c490b2246e8cb733593df3bec44a3ab249f9e8b5c5e5cf72c6574&=&format=webp&quality=lossless&width=593&height=593" alt="Picturest Logo" width="300" height="300">
 </p>
 
 Picturest is a project inspired by Pinterest, designed to facilitate the sharing and discovery of images. It leverages modern technologies for both the backend and frontend to provide a seamless and enjoyable user experience.
